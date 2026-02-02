@@ -400,98 +400,98 @@ $(document).ready(function() {
 
      lastAssistantMessage = assistantMessages[assistantMessages.length - 1].content;
 
-    // 使用新的解析方法替代原有逻辑
-    const planData = parseWorkoutPlan(lastAssistantMessage);
+  //   // 使用新的解析方法替代原有逻辑
+  //   const planData = parseWorkoutPlan(lastAssistantMessage);
 
-    // 将计划数据复制到剪贴板
-    function copyToClipboard(text) {
-        if (!navigator.clipboard) {
-            // 传统方法备用
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            return true;
-        }
-        return navigator.clipboard.writeText(text);
-    }
+  //   // 将计划数据复制到剪贴板
+  //   function copyToClipboard(text) {
+  //       if (!navigator.clipboard) {
+  //           // 传统方法备用
+  //           const textarea = document.createElement('textarea');
+  //           textarea.value = text;
+  //           document.body.appendChild(textarea);
+  //           textarea.select();
+  //           document.execCommand('copy');
+  //           document.body.removeChild(textarea);
+  //           return true;
+  //       }
+  //       return navigator.clipboard.writeText(text);
+  //   }
 
-    // 复制原始消息或解析后的JSON数据
-    const copyText = lastAssistantMessage;
-    copyToClipboard(copyText)
-        .then(() => {
-            console.log('计划数据已复制到剪贴板');
-            alert("当无法解析计划内容时，计划已经复制到剪切板请手动添加到计划中");
-        })
-        .catch(err => {
-            console.error('复制失败:', err);
-            alert('复制失败，请手动复制内容');
-        });
+  //   // 复制原始消息或解析后的JSON数据
+  //   const copyText = lastAssistantMessage;
+  //   copyToClipboard(copyText)
+  //       .then(() => {
+  //           console.log('计划数据已复制到剪贴板');
+  //           alert("当无法解析计划内容时，计划已经复制到剪切板请手动添加到计划中");
+  //       })
+  //       .catch(err => {
+  //           console.error('复制失败:', err);
+  //           alert('复制失败，请手动复制内容');
+  //       });
 
-    if (!planData) {
-        alert("当无法解析计划内容时，计划已经复制到剪切板请手动添加到计划中");
-        return;
-    }
+  //   if (!planData) {
+  //       alert("当无法解析计划内容时，计划已经复制到剪切板请手动添加到计划中");
+  //       return;
+  //   }
 
-    // 填充表单数据
-    weekdays.forEach(day => {
-        const dayData = planData.days[day];
-        if (dayData && dayData.title) {
-            const titleElement = document.getElementById(`${day}-title`);
-            const contentElement = document.getElementById(`${day}-content`);
-            if (titleElement) titleElement.value = dayData.title;
-            if (contentElement) {
-              // 清空现有内容
-              contentElement.innerHTML = '';
-              // 循环生成input元素
-              const textarea = document.createElement('textarea');
-              textarea.name = 'item';
-              textarea.value = dayData.content.join('\n');
-              contentElement.appendChild(textarea);
+  //   // 填充表单数据
+  //   weekdays.forEach(day => {
+  //       const dayData = planData.days[day];
+  //       if (dayData && dayData.title) {
+  //           const titleElement = document.getElementById(`${day}-title`);
+  //           const contentElement = document.getElementById(`${day}-content`);
+  //           if (titleElement) titleElement.value = dayData.title;
+  //           if (contentElement) {
+  //             // 清空现有内容
+  //             contentElement.innerHTML = '';
+  //             // 循环生成input元素
+  //             const textarea = document.createElement('textarea');
+  //             textarea.name = 'item';
+  //             textarea.value = dayData.content.join('\n');
+  //             contentElement.appendChild(textarea);
 
-              // dayData.content.forEach((item, index) => {
-              //     const input = document.createElement('input');
-              //     input.type = 'text';
-              //     input.name = 'item';
-              //     input.value = item;
-              //     input.className = 'plan-item-input';
-              //     input.placeholder = `项目 ${index + 1}`;
-              //     // 添加到容器
-              //     contentElement.appendChild(input);
-              //     // 添加换行符
-              //     contentElement.appendChild(document.createElement('br'));
-              // });
-            }
-        }
-    });
-   $("#addPlanModal").show();
+  //             // dayData.content.forEach((item, index) => {
+  //             //     const input = document.createElement('input');
+  //             //     input.type = 'text';
+  //             //     input.name = 'item';
+  //             //     input.value = item;
+  //             //     input.className = 'plan-item-input';
+  //             //     input.placeholder = `项目 ${index + 1}`;
+  //             //     // 添加到容器
+  //             //     contentElement.appendChild(input);
+  //             //     // 添加换行符
+  //             //     contentElement.appendChild(document.createElement('br'));
+  //             // });
+  //           }
+  //       }
+  //   });
+  //  $("#addPlanModal").show();
 
-    $("#loading").show();
+  //   $("#loading").show();
    
 
 
 
-
-    /*$.ajax({
-      url: "/add-to-plan?id=" + userid,
-      type: "post",
-      contentType: "application/x-www-form-urlencoded",
-      data: 'message=' + encodeURIComponent(lastAssistantMessage)
-    }).done(function(response) {
-      if (!response.success) {
-        alert(response.error);
-      } else if (response.success) {
-        alert("已成功加入您的计划！");
-      } else {
-        alert("加入计划失败，请稍后重试！");
-      }
-      $("#loading").hide();
-    }).fail(function() {
-      alert("网络错误，请稍后重试！");
-      $("#loading").hide();
-    });*/
+  // const startDate = formatDate(new Date()); 
+  //   $.ajax({
+  //     url: "/add-to-plan?id=" + userid +'&startDate='+startDate,
+  //     type: "post",
+  //     contentType: "application/x-www-form-urlencoded",
+  //     data: 'message=' + encodeURIComponent(lastAssistantMessage)
+  //   }).done(function(response) {
+  //     if (!response.success) {
+  //       alert(response.error);
+  //     } else if (response.success) {
+  //       alert("已成功加入您的计划！");
+  //     } else {
+  //       alert("加入计划失败，请稍后重试！");
+  //     }
+  //     $("#loading").hide();
+  //   }).fail(function() {
+  //     alert("网络错误，请稍后重试！");
+  //     $("#loading").hide();
+  //   });
   });
    function formatDate(date) {
     const y = date.getFullYear();
@@ -526,140 +526,140 @@ $(document).ready(function() {
       document.getElementById(id+'-time').value = weekDates[index];
     });
   });
-  $("#confirmAddPlan").click(function() {
-    if (!$("#planTitle").val()) {
-        alert("请输入计划名称");
-        return;
-    }
-    if (!$("#startDate").val()) {
-        alert("请输入计划开始日期");
-        return;
-    }
-    // 收集计划内容
-    const planContent = weekdays.map(day => {
-        const contentElement = document.getElementById(`${day}-title`);
-        return contentElement ? contentElement.value.trim() : '';
-    });
-    console.log(planContent.length);
-    if (planContent.length === 0) {
-        alert("请输入至少一天的计划内容");
-        return;
-    }
+  // $("#confirmAddPlan").click(function() {
+  //   if (!$("#planTitle").val()) {
+  //       alert("请输入计划名称");
+  //       return;
+  //   }
+  //   if (!$("#startDate").val()) {
+  //       alert("请输入计划开始日期");
+  //       return;
+  //   }
+  //   // 收集计划内容
+  //   const planContent = weekdays.map(day => {
+  //       const contentElement = document.getElementById(`${day}-title`);
+  //       return contentElement ? contentElement.value.trim() : '';
+  //   });
+  //   console.log(planContent.length);
+  //   if (planContent.length === 0) {
+  //       alert("请输入至少一天的计划内容");
+  //       return;
+  //   }
 
-    $.ajax({
-      url: "/add-to-plan-weekly?id=" + userid,
-      type: "post",
-      contentType: "application/json",
-      data: JSON.stringify({
-        title: $("#planTitle").val(),
-        message: lastAssistantMessage,
-        monday:{data:[
-            {type: "title", "text": $("#monday-title").val()},
-            {type: "time", "text": $("#monday-time").val()},
-            {type: "item", "text": $("#monday-content textarea[name='item']").val()},
-        ]},
-        tuesday: {data:[
-            {type: "title", "text": $("#tuesday-title").val()},
-            {type: "time", "text": $("#tuesday-time").val()},
-            {type: "item", "text": $("#tuesday-content textarea[name='item']").val()},
-        ]},
-        wednesday: {data:[
-            {type: "title", "text": $("#wednesday-title").val()},
-            {type: "time", "text": $("#wednesday-time").val()},
-            {type: "item", "text": $("#wednesday-content textarea[name='item']").val()},
-        ]},
-        thursday: {data:[     
-            {type: "title", "text": $("#thursday-title").val()},
-            {type: "time", "text": $("#thursday-time").val()},
-            {type: "item", "text": $("#thursday-content textarea[name='item']").val()},
-        ]},
-        friday: {data:[
-            {type: "title", "text": $("#friday-title").val()},
-            {type: "time", "text": $("#friday-time").val()},
-            {type: "item", "text": $("#friday-content textarea[name='item']").val()},
-        ]},
-        saturday: {data:[
-            {type: "title", "text": $("#saturday-title").val()},
-            {type: "time", "text": $("#saturday-time").val()},
-            {type: "item", "text": $("#saturday-content textarea[name='item']").val()},
-        ]},
-        sunday: {data:[
-            {type: "title", "text": $("#sunday-title").val()},
-            {type: "time", "text": $("#sunday-time").val()},
-            {type: "item", "text": $("#sunday-content textarea[name='item']").val()},
-        ]},  
-      })
-    }).done(function(response) {
-      if (!response.success) {
-        alert(response.error);
-      } else if (response.success) {
-        alert("已成功加入您的计划！");
-        $("#addPlanModal").hide();
-      } else {
-        alert("加入计划失败，请稍后重试！");
+  //   $.ajax({
+  //     url: "/add-to-plan-weekly?id=" + userid,
+  //     type: "post",
+  //     contentType: "application/json",
+  //     data: JSON.stringify({
+  //       title: $("#planTitle").val(),
+  //       message: lastAssistantMessage,
+  //       monday:{data:[
+  //           {type: "title", "text": $("#monday-title").val()},
+  //           {type: "time", "text": $("#monday-time").val()},
+  //           {type: "item", "text": $("#monday-content textarea[name='item']").val()},
+  //       ]},
+  //       tuesday: {data:[
+  //           {type: "title", "text": $("#tuesday-title").val()},
+  //           {type: "time", "text": $("#tuesday-time").val()},
+  //           {type: "item", "text": $("#tuesday-content textarea[name='item']").val()},
+  //       ]},
+  //       wednesday: {data:[
+  //           {type: "title", "text": $("#wednesday-title").val()},
+  //           {type: "time", "text": $("#wednesday-time").val()},
+  //           {type: "item", "text": $("#wednesday-content textarea[name='item']").val()},
+  //       ]},
+  //       thursday: {data:[     
+  //           {type: "title", "text": $("#thursday-title").val()},
+  //           {type: "time", "text": $("#thursday-time").val()},
+  //           {type: "item", "text": $("#thursday-content textarea[name='item']").val()},
+  //       ]},
+  //       friday: {data:[
+  //           {type: "title", "text": $("#friday-title").val()},
+  //           {type: "time", "text": $("#friday-time").val()},
+  //           {type: "item", "text": $("#friday-content textarea[name='item']").val()},
+  //       ]},
+  //       saturday: {data:[
+  //           {type: "title", "text": $("#saturday-title").val()},
+  //           {type: "time", "text": $("#saturday-time").val()},
+  //           {type: "item", "text": $("#saturday-content textarea[name='item']").val()},
+  //       ]},
+  //       sunday: {data:[
+  //           {type: "title", "text": $("#sunday-title").val()},
+  //           {type: "time", "text": $("#sunday-time").val()},
+  //           {type: "item", "text": $("#sunday-content textarea[name='item']").val()},
+  //       ]},  
+  //     })
+  //   }).done(function(response) {
+  //     if (!response.success) {
+  //       alert(response.error);
+  //     } else if (response.success) {
+  //       alert("已成功加入您的计划！");
+  //       $("#addPlanModal").hide();
+  //     } else {
+  //       alert("加入计划失败，请稍后重试！");
+  //     }
+  //     $("#loading").hide();
+  //     // 清空表单数据
+  //     // weekdays.forEach(day => {
+  //     //   const titleElement = document.getElementById(`${day}-title`);
+  //     //   const contentElement = document.getElementById(`${day}-content`);
+  //     //   if (titleElement) titleElement.value = "";
+  //     //   if (contentElement) contentElement.value = "";
+  //     // });
+  //   }).fail(function() {
+  //     alert("网络错误，请稍后重试！");
+  //     $("#loading").hide();
+  //   });
+  // });
+  $("#add_to_plan_button").modalInput({
+      title: "请给计划起个名吧",
+      animation: "zoom", // fade / zoom / slide
+
+      fields: [
+        {
+          type: "text",
+          name: "title",
+          label: "计划名称",
+          placeholder: "请输入计划名称",
+          validate: v => v ? {valid:true} : {valid:false, msg:"计划名称不能为空"}
+        },
+        /*{
+          type: "textarea",
+          name: "desc",
+          label: "描述",
+          placeholder: "请输入描述内容",
+          default: "",
+          validate: v => ({valid:true})
+        },
+        {
+          type: "select",
+          name: "category",
+          label: "类别",
+          default: "sport",
+          options: [
+            {value:"sport", label:"运动"},
+            {value:"diet",  label:"饮食"},
+            {value:"rest",  label:"休息"}
+          ]
+        },
+        {
+          type: "radio",
+          name: "level",
+          label: "强度等级",
+          default: "middle",
+          options: [
+            {value:"low", label:"低"},
+            {value:"middle", label:"中"},
+            {value:"high", label:"高"},
+          ]
+        }*/
+      ],
+
+      onConfirm: function(values){
+//        alert("提交的数据：" + JSON.stringify(values, null, 2));
+        submitPlan(values.title);
       }
-      $("#loading").hide();
-      // 清空表单数据
-      // weekdays.forEach(day => {
-      //   const titleElement = document.getElementById(`${day}-title`);
-      //   const contentElement = document.getElementById(`${day}-content`);
-      //   if (titleElement) titleElement.value = "";
-      //   if (contentElement) contentElement.value = "";
-      // });
-    }).fail(function() {
-      alert("网络错误，请稍后重试！");
-      $("#loading").hide();
     });
-  });
-//   $("#add_to_plan_button").modalInput({
-//       title: "请给计划起个名吧",
-//       animation: "zoom", // fade / zoom / slide
-
-//       fields: [
-//         {
-//           type: "text",
-//           name: "title",
-//           label: "计划名称",
-//           placeholder: "请输入计划名称",
-//           validate: v => v ? {valid:true} : {valid:false, msg:"计划名称不能为空"}
-//         },
-//         /*{
-//           type: "textarea",
-//           name: "desc",
-//           label: "描述",
-//           placeholder: "请输入描述内容",
-//           default: "",
-//           validate: v => ({valid:true})
-//         },
-//         {
-//           type: "select",
-//           name: "category",
-//           label: "类别",
-//           default: "sport",
-//           options: [
-//             {value:"sport", label:"运动"},
-//             {value:"diet",  label:"饮食"},
-//             {value:"rest",  label:"休息"}
-//           ]
-//         },
-//         {
-//           type: "radio",
-//           name: "level",
-//           label: "强度等级",
-//           default: "middle",
-//           options: [
-//             {value:"low", label:"低"},
-//             {value:"middle", label:"中"},
-//             {value:"high", label:"高"},
-//           ]
-//         }*/
-//       ],
-
-//       onConfirm: function(values){
-// //        alert("提交的数据：" + JSON.stringify(values, null, 2));
-//         submitPlan(values.title);
-//       }
-//     });
 
   function submitPlan(title) {
       // 获取当前对话中最后一条助手消息
@@ -680,7 +680,7 @@ $(document).ready(function() {
         $("#loading").show();
         // 发送数据到服务器
         $.ajax({
-          url: "/add-to-plan?id=" + userid,
+          url: "/add-to-plan?id=" + userid+'&startDate='+formatDate(new Date()),
           type: "post",
           contentType: "application/x-www-form-urlencoded",
           data: 'message=' + encodeURIComponent(lastAssistantMessage) + '&title=' + title
