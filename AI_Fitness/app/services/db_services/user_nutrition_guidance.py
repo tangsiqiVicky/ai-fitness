@@ -114,10 +114,10 @@ def get_guidance_options(condition: dict, order=None, limit=None):
         return Response.fail(code=500, msg="查询条件不能为空")
 
     # 默认查询未删除的
-    condition.setdefault('is_deleted', 0)
+    condition.setdefault('is_deleted !=', 1)
 
     try:
-        result = conn.fetch_rows(TABLE_NAME, condition=condition)
+        result = conn.fetch_rows(TABLE_NAME, condition=condition, order='create_time desc')
         if result is None or len(result) == 0:
             return Response.fail(code=404, msg="查无此用户营养指导信息")
         # 如果是根据唯一ID查询，通常只返回一条记录
@@ -139,7 +139,7 @@ def get_guidances_for_user(user_id: int):
     """获取指定用户的所有营养指导 (未删除的)"""
     if not user_id:
         return Response.fail(code=500, msg="用户ID不能为空")
-    condition = {"user_id": user_id, "is_deleted": 0}
+    condition = {"user_id": user_id}
     return get_guidance(condition)
 
 

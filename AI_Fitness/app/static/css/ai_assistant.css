@@ -560,3 +560,74 @@
     max-height: calc(100% - 140px);
   }
 }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: rgba(9, 85, 120, 0.8);
+  width: 80%;
+  max-width: 1286px;
+  overflow: scroll;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: all .25s ease;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.modal-header {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  background-color: #0a5f8a;
+  border-radius: 5px;
+  padding: 10px;
+}
+.modal-body label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  width: 180px;
+  display: flex;
+  align-items: center;
+}
+.modal-body input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+.modal-body textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+.modal-input {
+  display: flex;
+}
+.modal-box-input div{
+  flex:0 0 33.3%
+}
+.modal-box-input {
+ display: flex;
+ justify-content: flex-start;
+ flex-wrap: wrap;
+}
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+/* #addPlanModal{
+  display: none;
+} */

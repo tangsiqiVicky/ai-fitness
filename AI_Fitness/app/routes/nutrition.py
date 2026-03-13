@@ -85,7 +85,7 @@ def nutrition_detail():
     user = user_result.data
 
     # 获取历史营养数据（模拟数据）
-    history_data = get_nutrition_history(user_id)
+    history_data = get_nutrition_guidance(user_id)
 
     # 计算当前营养建议
     nutrition_data = calculate_nutrition(user)
@@ -203,39 +203,92 @@ def get_nutrition_history(user_id, days=7):
 
     return history
 
+def get_nutrition_guidance(user_id):
+    guidanceList = user_nutrition_guidance.get_guidances_for_user(user_id)
+    result_list = []
+
+    if guidanceList.success and guidanceList.data:
+        for guidance in guidanceList.data:
+            guidance_item = {
+                'guidance': guidance,
+                'nutrition_details': user_nutrition_guidance_detail.get_guidance_detail_by_guidance_id(guidance['id'],
+                                                                                                       'T01'),
+                'food_suggestions': user_nutrition_guidance_detail.get_guidance_detail_by_guidance_id(guidance['id'],
+                                                                                                      'T02')
+            }
+            result_list.append(guidance_item)
+
+    return result_list
 
 def get_food_suggestions(user):
-    """根据用户康复课程获取食物建议"""
-    theme_id = user.get('theme_id')
 
-    # 通用建议
-    suggestions = {
-        'breakfast': [
-            {'name': '全麦面包', 'amount': '2片', 'nutrition': '碳水化合物'},
-            {'name': '鸡蛋', 'amount': '2个', 'nutrition': '蛋白质'},
-            {'name': '牛奶', 'amount': '250ml', 'nutrition': '蛋白质、钙'},
-            {'name': '水果', 'amount': '1份', 'nutrition': '维生素'}
-        ],
-        'lunch': [
-            {'name': '糙米饭', 'amount': '1碗', 'nutrition': '碳水化合物'},
-            {'name': '鸡胸肉', 'amount': '150g', 'nutrition': '蛋白质'},
-            {'name': '蔬菜沙拉', 'amount': '1份', 'nutrition': '纤维素、维生素'},
-            {'name': '豆腐', 'amount': '100g', 'nutrition': '植物蛋白'}
-        ],
-        'dinner': [
-            {'name': '杂粮粥', 'amount': '1碗', 'nutrition': '碳水化合物'},
-            {'name': '清蒸鱼', 'amount': '150g', 'nutrition': '优质蛋白'},
-            {'name': '时令蔬菜', 'amount': '2份', 'nutrition': '纤维素'},
-            {'name': '坚果', 'amount': '30g', 'nutrition': '健康脂肪'}
-        ],
-        'snacks': [
-            {'name': '酸奶', 'amount': '200ml', 'nutrition': '蛋白质、益生菌'},
-            {'name': '香蕉', 'amount': '1根', 'nutrition': '碳水、钾'},
-            {'name': '蛋白粉', 'amount': '1勺', 'nutrition': '蛋白质补充'}
-        ]
-    }
+    guidance = user_nutrition_guidance.get_active_guidance_for_user(user['id'])
+    dtls = user_nutrition_guidance_detail.get_guidance_detail_by_guidance_id(guidance.data[0]['id'], 'T02')
+    dtlInfo = {}
+    for dtl in dtls:
+        arrval = dtl['item_value'].split('+')
+        tempdtlArr = []
+        for i in range(len(arrval)):
+            tempValue = {}
+            if arrval[i]:
+                arrval[i] = arrval[i].strip()
+                if '(' in arrval[i]:
+                    tempValue['name'] = arrval[i].split('(')[0]
+                if '（' in arrval[i]:
+                    tempValue['name'] = arrval[i].split('(')[0]
+                if ',' in arrval[i]:
+                    tempValue['amount'] = arrval[i].split('(')[1].split(',')[0]
+                if '，' in arrval[i]:
+                    tempValue['amount'] = arrval[i].split('(')[1].split('，')[0]
+                if ',' in arrval[i]:
+                    tempValue['nutrition'] = arrval[i].split('(')[1].split(',')[1][:-1]
+                if '，' in arrval[i]:
+                    tempValue['nutrition'] = arrval[i].split('(')[1].split('，')[1][:-1]
+            tempdtlArr.append(tempValue)
+        if '早餐' in dtl['item_name']:
+            dtlInfo['breakfast'] = tempdtlArr
+        if '午餐' in dtl['item_name']:
+            dtlInfo['lunch'] = tempdtlArr
+        if '晚餐' in dtl['item_name']:
+            dtlInfo['dinner'] = tempdtlArr
+        if '加餐' in dtl['item_name']:
+            dtlInfo['snacks'] = tempdtlArr
+        if '睡前' in dtl['item_name']:
+            dtlInfo['sleep'] = tempdtlArr
 
-    return suggestions
+
+    #
+    # """根据用户康复课程获取食物建议"""
+    # theme_id = user.get('theme_id')
+    #
+    # # 通用建议
+    # suggestions = {
+    #     'breakfast': [
+    #         {'name': '全麦面包', 'amount': '2片', 'nutrition': '碳水化合物'},
+    #         {'name': '鸡蛋', 'amount': '2个', 'nutrition': '蛋白质'},
+    #         {'name': '牛奶', 'amount': '250ml', 'nutrition': '蛋白质、钙'},
+    #         {'name': '水果', 'amount': '1份', 'nutrition': '维生素'}
+    #     ],
+    #     'lunch': [
+    #         {'name': '糙米饭', 'amount': '1碗', 'nutrition': '碳水化合物'},
+    #         {'name': '鸡胸肉', 'amount': '150g', 'nutrition': '蛋白质'},
+    #         {'name': '蔬菜沙拉', 'amount': '1份', 'nutrition': '纤维素、维生素'},
+    #         {'name': '豆腐', 'amount': '100g', 'nutrition': '植物蛋白'}
+    #     ],
+    #     'dinner': [
+    #         {'name': '杂粮粥', 'amount': '1碗', 'nutrition': '碳水化合物'},
+    #         {'name': '清蒸鱼', 'amount': '150g', 'nutrition': '优质蛋白'},
+    #         {'name': '时令蔬菜', 'amount': '2份', 'nutrition': '纤维素'},
+    #         {'name': '坚果', 'amount': '30g', 'nutrition': '健康脂肪'}
+    #     ],
+    #     'snacks': [
+    #         {'name': '酸奶', 'amount': '200ml', 'nutrition': '蛋白质、益生菌'},
+    #         {'name': '香蕉', 'amount': '1根', 'nutrition': '碳水、钾'},
+    #         {'name': '蛋白粉', 'amount': '1勺', 'nutrition': '蛋白质补充'}
+    #     ]
+    # }
+
+    return dtlInfo
 
 
 @nutrition_bp.route('/api/nutrition-data', methods=['GET'])

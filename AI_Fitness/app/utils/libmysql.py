@@ -263,6 +263,9 @@ class MYSQL:
             if '.' in key :
                 keyarr = key.split('.')
                 sql += "{}{}.`{}` = %s".format(comma, keyarr[0], keyarr[1])
+            elif '!=' in key:
+                keyarr = key.split(' ')
+                sql += "{}`{}` != %s".format(comma, keyarr[0])
             else:
                 sql += "{}`{}` = %s".format(comma, key)
             comma = glue

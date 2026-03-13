@@ -1,10 +1,9 @@
 {% extends "main.html" %}
 
 {% block extra_css %}
-<style>
-    .detail-container {
+<style>    .detail-container {
         padding: 20px;
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
     }
 
@@ -74,37 +73,124 @@
         color: #667eea;
     }
 
-    .history-table {
+    .history-section {
         background: white;
         border-radius: 15px;
         padding: 25px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    .history-table h2 {
-        margin-bottom: 20px;
+    .history-section h2 {
+        margin-bottom: 25px;
         color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
-    .history-table table {
-        width: 100%;
-        border-collapse: collapse;
+    .date-group {
+        margin-bottom: 30px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        overflow: hidden;
     }
 
-    .history-table th, .history-table td {
-        padding: 15px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
-
-    .history-table th {
-        background: #f8f9fa;
+    .date-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        font-size: 18px;
         font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .date-header i {
+        font-size: 20px;
+    }
+
+    .nutrition-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        padding: 20px;
+        background: #f8f9fa;
+    }
+
+    .nutrition-item {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 4px solid #667eea;
+    }
+
+    .nutrition-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .nutrition-item.protein {
+        border-left-color: #ff6b6b;
+    }
+
+    .nutrition-item.carbs {
+        border-left-color: #4ecdc4;
+    }
+
+    .nutrition-item.fat {
+        border-left-color: #ffe66d;
+    }
+
+    .nutrition-item.calories {
+        border-left-color: #95e1d3;
+    }
+
+    .nutrition-item .item-name {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+
+    .nutrition-item .item-value {
+        font-size: 24px;
+        font-weight: bold;
         color: #333;
     }
 
-    .history-table tr:hover {
-        background: #f8f9fa;
+    .nutrition-item.protein .item-value {
+        color: #ff6b6b;
+    }
+
+    .nutrition-item.carbs .item-value {
+        color: #4ecdc4;
+    }
+
+    .nutrition-item.fat .item-value {
+        color: #f9ca24;
+    }
+
+    .nutrition-item.calories .item-value {
+        color: #05c46b;
+    }
+
+    @media (max-width: 1024px) {
+        .nutrition-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .nutrition-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .nav-buttons {
+            flex-direction: column;
+        }
     }
 </style>
 {% endblock %}
@@ -144,30 +230,34 @@
     </div>
 
     <!-- 历史数据 -->
-    <div class="history-table">
+    <div class="history-section">
         <h2><i class="fas fa-history"></i> 历史数据详情</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>日期</th>
-                    <th>蛋白质 (g)</th>
-                    <th>碳水化合物 (g)</th>
-                    <th>脂肪 (g)</th>
-                    <th>总热量 (kcal)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in history %}
-                <tr>
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.protein }}</td>
-                    <td>{{ item.carbs }}</td>
-                    <td>{{ item.fat }}</td>
-                    <td>{{ item.calories|int }}</td>
-                </tr>
+        
+        {% for date_data in history %}
+        <div class="date-group">
+            <div class="date-header">
+                <i class="fas fa-calendar-day"></i>
+                {{ date_data.guidance.guidance_name }}——
+                {% if date_data.guidance.create_time %}
+                    {{ date_data.guidance.create_time.strftime('%Y-%m-%d') }}
+                {% else %}
+                    /
+                {% endif %}
+            </div>
+            <div class="nutrition-grid">
+
+                {% if date_data.nutrition_details %}
+                {% for nutrition in date_data.nutrition_details %}
+                <!-- 蛋白质 -->
+                <div class="nutrition-item protein">
+                    <div class="item-name"><i class="fas fa-drumstick-bite"></i> {{ nutrition.item_name }}</div>
+                    <div class="item-value">{{ nutrition.item_value }}</div>
+                </div>
                 {% endfor %}
-            </tbody>
-        </table>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
