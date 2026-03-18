@@ -2,6 +2,8 @@
 # FROM python:3.9-slim
 FROM python:3.10.0
 # FROM mirror.tuna.tsinghua.edu.cn/python/3.9.0
+#设置容器时区
+ENV TZ=Asia/Shanghai
 
 # 设置工作目录
 WORKDIR /app
