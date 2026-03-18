@@ -1,0 +1,56 @@
+body{font-family:Arial}
+#mask{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    display:none;
+    z-index:999999;        /* 比所有系统导航都高 */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.cal-box{
+    width:1000px;
+    height:700px;
+    background:#fff;
+    border-radius:10px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    z-index:1000000;       /* 再保险 */
+}
+
+.top{flex-shrink:0;border-bottom:1px solid #ddd;}
+.header{
+  height:50px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;background:#f5f7fa;font-size:18px;font-weight:bold;
+}
+.week{
+  height:36px;display:grid;grid-template-columns:repeat(7,1fr);
+  background:#fafafa;border-top:1px solid #eee;
+}
+.week div{text-align:center;line-height:36px;font-weight:bold;}
+.body{flex:1;display:grid;grid-template-columns:repeat(7,1fr);}
+.day{
+  border:1px solid #eee;padding:6px;position:relative;
+}
+.day.selected{background:#e6f2ff;border-color:#409eff;}
+.day.dirty{background:#fff7e6;border-color:#faad14;}
+.date{font-size:12px;color:#999;}
+.content{font-size:13px;white-space:pre-wrap;}
+.edit{
+  position:absolute;right:5px;top:5px;cursor:pointer;
+  display:none;color:#409eff;
+}
+.day:hover .edit{display:block;}
+textarea{width:100%;height:80px;}
+
+.footer{padding:10px;text-align:right;border-top:1px solid #eee;}
+
+.menu{
+ position:fixed;background:#fff;border:1px solid #ccc;
+ box-shadow:0 2px 8px rgba(0,0,0,.2);z-index:999;
+}
+.menu div{padding:6px 15px;cursor:pointer;}
+.menu div:hover{background:#409eff;color:#fff;}

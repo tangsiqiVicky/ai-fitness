@@ -1,0 +1,288 @@
+{% extends "main.html" %}
+
+{% block extra_css %}
+<style>
+    .suggestion-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .back-link {
+        color: white;
+        text-decoration: none;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .nav-buttons a {
+        padding: 12px 25px;
+        background: white;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #667eea;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .nav-buttons a:hover, .nav-buttons a.active {
+        background: #667eea;
+        color: white;
+    }
+
+    .meal-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .meal-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .meal-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    .meal-icon.breakfast { background: #fff3cd; color: #f39c12; }
+    .meal-icon.lunch { background: #d4edda; color: #27ae60; }
+    .meal-icon.dinner { background: #cce5ff; color: #3498db; }
+    .meal-icon.snacks { background: #f8d7da; color: #e74c3c; }
+
+    .meal-header h2 {
+        margin: 0;
+        color: #333;
+    }
+
+    .food-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+    }
+
+    .food-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        gap: 15px;
+    }
+
+    .food-item .food-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .food-info h4 {
+        margin: 0 0 5px 0;
+        color: #333;
+    }
+
+    .food-info p {
+        margin: 0;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .food-amount {
+        margin-left: auto;
+        background: #667eea;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+    }
+
+    .nutrition-summary {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 12px;
+        padding: 25px;
+        margin-top: 30px;
+    }
+
+    .nutrition-summary h3 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .summary-item {
+        text-align: center;
+    }
+
+    .summary-item .value {
+        font-size: 28px;
+        font-weight: bold;
+        color: #667eea;
+    }
+
+    .summary-item .label {
+        color: #666;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="suggestion-container">
+    <div class="page-header">
+        <a href="{{ url_for('nutrition.user_nutrition') }}" class="back-link"><i class="fas fa-arrow-left"></i> 返回营养指导</a>
+        <h1><i class="fas fa-utensils"></i> 每日营养建议</h1>
+        <p>根据您的身体数据和康复需求，为您推荐的每日饮食方案</p>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="{{ url_for('nutrition.user_nutrition') }}">营养指导总览</a>
+        <a href="{{ url_for('nutrition.nutrition_detail') }}">详细营养数据</a>
+        <a href="{{ url_for('nutrition.nutrition_suggestion') }}" class="active">每日营养建议</a>
+    </div>
+
+    <!-- 早餐 -->
+    <div class="meal-section">
+        <div class="meal-header">
+            <div class="meal-icon breakfast"><i class="fas fa-sun"></i></div>
+            <h2>早餐</h2>
+        </div>
+        <div class="food-list">
+            {% for food in food_suggestions.breakfast %}
+            <div class="food-item">
+                <div class="food-icon">🥗</div>
+                <div class="food-info">
+                    <h4>{{ food.name }}</h4>
+                    <p>{{ food.nutrition }}</p>
+                </div>
+                <span class="food-amount">{{ food.amount }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 午餐 -->
+    <div class="meal-section">
+        <div class="meal-header">
+            <div class="meal-icon lunch"><i class="fas fa-cloud-sun"></i></div>
+            <h2>午餐</h2>
+        </div>
+        <div class="food-list">
+            {% for food in food_suggestions.lunch %}
+            <div class="food-item">
+                <div class="food-icon">🍚</div>
+                <div class="food-info">
+                    <h4>{{ food.name }}</h4>
+                    <p>{{ food.nutrition }}</p>
+                </div>
+                <span class="food-amount">{{ food.amount }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 晚餐 -->
+    <div class="meal-section">
+        <div class="meal-header">
+            <div class="meal-icon dinner"><i class="fas fa-moon"></i></div>
+            <h2>晚餐</h2>
+        </div>
+        <div class="food-list">
+            {% for food in food_suggestions.dinner %}
+            <div class="food-item">
+                <div class="food-icon">🍲</div>
+                <div class="food-info">
+                    <h4>{{ food.name }}</h4>
+                    <p>{{ food.nutrition }}</p>
+                </div>
+                <span class="food-amount">{{ food.amount }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 加餐 -->
+    <div class="meal-section">
+        <div class="meal-header">
+            <div class="meal-icon snacks"><i class="fas fa-cookie-bite"></i></div>
+            <h2>加餐 / 训练后补充</h2>
+        </div>
+        <div class="food-list">
+            {% for food in food_suggestions.snacks %}
+            <div class="food-item">
+                <div class="food-icon">🍌</div>
+                <div class="food-info">
+                    <h4>{{ food.name }}</h4>
+                    <p>{{ food.nutrition }}</p>
+                </div>
+                <span class="food-amount">{{ food.amount }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 营养汇总 -->
+    <div class="nutrition-summary">
+        <h3><i class="fas fa-calculator"></i> 每日营养目标汇总</h3>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="value">{{ nutrition.protein }}g</div>
+                <div class="label">蛋白质</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">{{ nutrition.carbs }}g</div>
+                <div class="label">碳水化合物</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">{{ nutrition.fat }}g</div>
+                <div class="label">脂肪</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">{{ nutrition.calories|int }}</div>
+                <div class="label">总热量 (kcal)</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

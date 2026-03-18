@@ -1,0 +1,158 @@
+{% extends "main.html" %}
+
+{% block title %}康训训练 - {% endblock %}
+
+{% block extra_css %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+            
+<div class="main-nutrition">
+    <!-- 内容区域 -->
+    <div class="main-nutrition-container">
+        <!-- 简化的标题区域 -->
+        <div class="header-simple">
+            <h1>营养指导</h1><br/>
+            <h2 class="action-title">——{{ user.user_name }}的一日饮食计划指导</h2>
+        </div>
+        
+        <!-- 主要内容区域 - 视频和要点 -->
+        <div class="content-area">
+            <!-- 营养记录 -->
+            <div class="content-section" id="nutrition">
+                <h2>营养摄入量建议：</h2>
+                <div class="card">
+                    <div class="nutrition-summary">
+                        <div class="nutrition-chart">
+                            <img src="{{url_for('static', filename='img/nutrition-sections.png') }}/">
+                        </div>
+                        <div class="nutrition-stats">
+                        {% if nutrition %}
+                            {% for item in nutrition %}
+                            <div class="nutrient-item">
+                                <h4>{{ item.item_name }}</h4>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 75%;"></div>
+                                </div>
+                                <p>{{ item.item_value }}</p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="nutrient-item">
+                                <h4> </h4>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 75%;"></div>
+                                </div>
+                                <p>您暂无营养指导！</p>
+                            </div>
+                        {% endif %}
+                            <!--<div class="nutrient-item">
+                                <h4>碳水化合物</h4>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 60%;"></div>
+                                </div>
+                                <p>180g / 300g</p>
+                            </div>
+                            <div class="nutrient-item">
+                                <h4>脂肪</h4>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 40%;"></div>
+                                </div>
+                                <p>30g / 70g</p>
+                            </div>
+                            <div class="nutrient-item">
+                                <h4>总热量</h4>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 65%;"></div>
+                                </div>
+                                <p>1560 / 2400 千卡</p>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-section" id="fooddrink">
+                <h2>饮食建议：</h2>
+                <div class="card">
+                    <div class="nutrition-summary">
+                        <div class="nutrition-chart">
+                            <img src="{{url_for('static', filename='img/nutrition.jpg') }}/">
+                        </div>
+
+                    </div>
+
+                    <div class="meal-log">
+                        <h3>今日饮食记录</h3>
+                     {% if nutrition %}
+                       {% for item in food %}
+                        <div class="meal-section">
+                            <h4>{{ item.item_name }}</h4>
+                            <div class="meal-items">
+
+                                <div class="meal-item">
+                                    <span class="food-name">{{ item.item_value }}</span>
+                                    <!--<span class="food-amount"></span>
+                                    <span class="food-calories">160千卡</span>-->
+                                </div>
+
+                                <!--<div class="meal-item">
+                                    <span class="food-name">鸡蛋</span>
+                                    <span class="food-amount">2个</span>
+                                    <span class="food-calories">140千卡</span>
+                                </div>
+                                <div class="meal-item">
+                                    <span class="food-name">牛奶</span>
+                                    <span class="food-amount">250ml</span>
+                                    <span class="food-calories">120千卡</span>
+                                </div>-->
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                     {% else %}
+                            <div class="meal-items">
+
+                                <div class="meal-item">
+                                    <span class="food-name">您暂无饮食指导！</span>
+                                    <!--<span class="food-amount"></span>
+                                    <span class="food-calories">160千卡</span>-->
+                                </div>
+                            </div>
+                     {% endif %}
+                        <!--<div class="meal-section">
+                            <h4>午餐</h4>
+                            <div class="meal-items">
+                                <div class="meal-item">
+                                    <span class="food-name">糙米饭</span>
+                                    <span class="food-amount">1碗</span>
+                                    <span class="food-calories">200千卡</span>
+                                </div>
+                                <div class="meal-item">
+                                    <span class="food-name">鸡胸肉</span>
+                                    <span class="food-amount">100g</span>
+                                    <span class="food-calories">165千卡</span>
+                                </div>
+                                <div class="meal-item">
+                                    <span class="food-name">西兰花</span>
+                                    <span class="food-amount">100g</span>
+                                    <span class="food-calories">55千卡</span>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nutrition.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

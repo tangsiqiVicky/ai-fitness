@@ -52,3 +52,7 @@ def get_course_theme_by_id(id: int):
      if not id:
          return Response.fail(code=500, msg="课程主题ID不能为空")
      return get_course_theme({"id": id})
+
+def get_all_course_themes():
+    """获取所有未删除的课程主题"""
+    return get_course_theme({"is_deleted": 0})

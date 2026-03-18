@@ -35,8 +35,8 @@ def create_app():
     from app.routes.fitness import fitness_bp
     from app.routes.clock import clock_bp
     from app.routes.nutrition import nutrition_bp
-    from app.api.userPlanApi import user_plan_bp
-    from app.api.courseApi import course_bp
+    from app.routes.user_plan import user_plan_bp
+    from app.routes.course import course_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(ai_assistant_bp)

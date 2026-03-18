@@ -363,7 +363,7 @@ $(document).ready(function() {
     const userid = $('#userid').val();
     $('#nav_training-plan').click(function(){
         $.ajax({
-          url: "/get-user-plan-active",
+          url: "/user-plan/get-user-plan-active",
           type: "get",
 //          contentType: "application/x-www-form-urlencoded",
           data: 'userId=' + userid

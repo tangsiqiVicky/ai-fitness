@@ -1,5 +1,5 @@
 import logging as python_logging
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify, send_from_directory
 from app.services import db_service
 from app.services.db_services import user_clock, course as courseService, course_action_points, course_training_record as recordService, course_action_comment as commentService, course_action_indicator as indicatorService
 from app.services.basefunc import get_current_data
@@ -274,6 +274,7 @@ def get_fitness_report():
         report['suggestions'] = list(dict.fromkeys(suggestions))
         report['course_id'] = records[0]['course_id']
         report['summary'] = summary
+        report['batch_no'] = batch_no
 
         return  report
     #     # 构建报告文件路径
@@ -417,3 +418,10 @@ def get_current_user_id():
     """获取当前登录用户的ID"""
     user_id = session.get('user_id', '0')
     return jsonify({"user_id": user_id})
+
+
+
+# 添加获取当前用户ID的路由
+@fitness_bp.route('/static/<path:filename>', methods=['GET'])
+def get_static_resourse(filename):
+    return send_from_directory('D:/ruoyi/uploadPath/upload/2026/01/13', filename)

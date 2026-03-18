@@ -1,0 +1,288 @@
+{% extends "main.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/doctors_list.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pagination.css') }}">
+{% endblock %}
+
+{% block content %}
+<div id="doctors-page" class="container-fluid">
+    <!-- 页面标题 -->
+    <div class="page-header">
+        <h1>康训医师团队</h1>
+        <p>我们拥有一支经验丰富、专业素质高的康复医师团队，为您提供专业的康复指导服务</p>
+    </div>
+
+    <!-- 医师列表 -->
+    <div class="doctors-container">
+        <div class="doctors-grid">
+        {% for c in doctors_list %}
+            <div class="doctor-card" v-for="doctor in pagedDoctors" :key="doctor.name">
+                <div class="doctor-image">
+                    {%if c.img_url %}
+                    <img src="{{'/images/doctor_path?path=' + c.img_url.split('/')[2:] | join('/')}}" :alt="c.nick_name" :onerror="c.fallback" loading="lazy">
+                    {%else %}
+                    <img src=" {{'/images/doctor_path?path=default'}}" :alt="doctor.name" :onerror="c.fallback" loading="lazy">
+                    {%endif %}
+                    <div class="doctor-badge"><i class="fas fa-user-md"></i></div>
+                </div>
+                <div class="doctor-content">
+                    <h3>{{ c.nick_name }}</h3>
+                    <p class="doctor-specialty">{{ c.role_name }}</p>
+                    <p class="doctor-bio">{{ c.rremark }}</p>
+                    <div class="doctor-credentials">
+                        <span class="credential-tag"><i class="fas fa-certificate"></i>{{ c.uremark }}</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <!-- 分页器 -->
+        <div id="doctorPagination"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let staticUrl = '/static/';
+    try {
+        const metaTag = document.querySelector('meta[name="static-url"]');
+        if (metaTag) {
+            staticUrl = metaTag.getAttribute('content');
+        }
+    } catch (error) {
+        console.error('获取静态URL时出错:', error);
+    }
+
+    var PAGE_SIZE = 8;
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            currentPage: 1,
+            pageSize: PAGE_SIZE,
+            doctors: [
+                {
+                    name: '李志远 医师',
+                    specialty: '运动康复科主任',
+                    bio: '北京协和医学院博士，专注运动损伤康复与骨科康复，15年临床经验',
+                    credential: '主任医师',
+                    image: staticUrl + 'img/doctor1.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                }<!--,
+                {
+                    name: '王雅琪 医师',
+                    specialty: '神经康复科专家',
+                    bio: '复旦大学医学硕士，擅长脑卒中、脊髓损伤等神经系统康复治疗',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor2.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '陈明华 医师',
+                    specialty: '中医康复科专家',
+                    bio: '中医药大学博士，结合传统中医与现代康复技术，擅长颈椎腰椎康复',
+                    credential: '主治医师',
+                    image: staticUrl + 'img/doctor3.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '张慧敏 医师',
+                    specialty: '骨科康复专家',
+                    bio: '上海交通大学医学博士，专注骨折术后康复与关节置换康复，12年临床经验',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor4.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '刘建国 医师',
+                    specialty: '心肺康复专家',
+                    bio: '北京大学医学部博士，专注心脏康复与肺部康复，10年临床经验',
+                    credential: '主任医师',
+                    image: staticUrl + 'img/doctor5.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '周晓燕 医师',
+                    specialty: '儿童康复专家',
+                    bio: '首都医科大学硕士，擅长儿童发育迟缓、脑瘫等儿童康复治疗',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor6.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '赵伟强 医师',
+                    specialty: '疼痛康复专家',
+                    bio: '浙江大学医学博士，专注慢性疼痛管理与康复治疗，8年临床经验',
+                    credential: '主治医师',
+                    image: staticUrl + 'img/doctor7.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '孙丽华 医师',
+                    specialty: '老年康复专家',
+                    bio: '中山大学医学硕士，擅长老年人跌倒预防与功能康复训练',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor8.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '马学文 医师',
+                    specialty: '脊柱康复专家',
+                    bio: '南京大学医学博士，专注脊柱侧弯矫正与腰椎间盘康复，14年临床经验',
+                    credential: '主任医师',
+                    image: staticUrl + 'img/doctor1.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '林婉清 医师',
+                    specialty: '产后康复专家',
+                    bio: '华中科技大学硕士，擅长产后盆底肌康复与体态矫正训练',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor2.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '黄志刚 医师',
+                    specialty: '运动医学专家',
+                    bio: '武汉大学医学博士，专注运动员伤病预防与竞技状态恢复，11年临床经验',
+                    credential: '主治医师',
+                    image: staticUrl + 'img/doctor3.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '吴静怡 医师',
+                    specialty: '手外科康复专家',
+                    bio: '四川大学华西医院博士，擅长手部肌腱损伤与关节僵硬康复治疗',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor4.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '徐国强 医师',
+                    specialty: '骨质疏松康复专家',
+                    bio: '中南大学湘雅医院博士，专注骨质疏松预防与老年骨折康复，9年临床经验',
+                    credential: '主治医师',
+                    image: staticUrl + 'img/doctor5.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '何美玲 医师',
+                    specialty: '言语康复专家',
+                    bio: '北京师范大学硕士，擅长脑卒中后失语症与吞咽障碍康复训练',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor6.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '郑浩然 医师',
+                    specialty: '烧伤康复专家',
+                    bio: '第四军医大学博士，专注大面积烧伤后瘢痕康复与功能重建',
+                    credential: '主任医师',
+                    image: staticUrl + 'img/doctor7.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '朱丽娟 医师',
+                    specialty: '肿瘤康复专家',
+                    bio: '中山大学肿瘤防治中心硕士，擅长肿瘤术后功能康复与生活质量改善',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor8.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '高文博 医师',
+                    specialty: '颈肩腰腿痛专家',
+                    bio: '哈尔滨医科大学博士，专注颈椎病、肩周炎等慢性疼痛综合康复，13年经验',
+                    credential: '主任医师',
+                    image: staticUrl + 'img/doctor1.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '谢雨桐 医师',
+                    specialty: '康复工程专家',
+                    bio: '东南大学生物医学工程硕士，擅长矫形器适配与辅助器具应用指导',
+                    credential: '主治医师',
+                    image: staticUrl + 'img/doctor2.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '曹振宇 医师',
+                    specialty: '重症康复专家',
+                    bio: '华西医院ICU康复博士，专注ICU早期康复介入与危重患者功能恢复',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor3.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '杨思琪 医师',
+                    specialty: '心理康复专家',
+                    bio: '北京大学心理学硕士，擅长康复期心理疏导与疼痛认知行为治疗',
+                    credential: '主治医师',
+                    image: staticUrl + 'img/doctor4.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '范国庆 医师',
+                    specialty: '足踝康复专家',
+                    bio: '同济大学医学博士，专注足踝运动损伤与扁平足矫正康复，10年临床经验',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor5.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '沈佳慧 医师',
+                    specialty: '盆底康复专家',
+                    bio: '浙江大学医学硕士，擅长女性盆底功能障碍与尿失禁康复治疗',
+                    credential: '主治医师',
+                    image: staticUrl + 'img/doctor6.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '邓伟明 医师',
+                    specialty: '截肢康复专家',
+                    bio: '上海交大医学院博士，专注截肢后假肢适配训练与步态重建，12年经验',
+                    credential: '主任医师',
+                    image: staticUrl + 'img/doctor7.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '苏晓蕾 医师',
+                    specialty: '呼吸康复专家',
+                    bio: '广州医科大学硕士，擅长COPD与哮喘患者的肺功能康复训练指导',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor8.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                }-->
+            ]
+        },
+        computed: {
+            pagedDoctors: function() {
+                var start = (this.currentPage - 1) * this.pageSize;
+                return this.doctors.slice(start, start + this.pageSize);
+            }
+        }
+    });
+
+    // 初始化分页器
+    var pagerEl = document.getElementById('doctorPagination');
+    if (pagerEl && vm.doctors.length > 0) {
+        new Pagination({
+            container: pagerEl,
+            totalItems: vm.doctors.length,
+            pageSize: PAGE_SIZE,
+            currentPage: 1,
+            onPageChange: function(page) {
+                vm.currentPage = page;
+                // 滚动到顶部
+                var grid = document.querySelector('.doctors-grid');
+                if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -7,148 +7,157 @@
 
 {% block content %}
 <div id="shouye" class="container-fluid">
-        <!-- 英雄区域 -->
-        <div class="hero row">
-            <div class="hero-content col-md-6">
-                <h2 class="title1">专业康复营养指导</h2>
-                <h2 class="title2">AI智能动作训练</h2>
-                <p>随着大众健康意识的日益提升，科学规范的康复训练已成为众多人群重拾健康状态、提升生活质量的关键路径。AI智体康训系统精准锚定这一需求，依托前沿人工智能技术，为用户量身打造高度个性化的康复训练方案。系统不仅能根据用户的身体指标、康复目标与训练反馈动态优化训练计划，更创新性整合专业营养指导模块，依据康复阶段为用户匹配膳食建议，实现“训练+营养”的双轨协同干预;同时搭载智能助手功能，实时解答训练疑问、督促训练进度，全方位助力用户以更科学、更高效的方式推进康复进程。</p>
-                <!--<button class="cta-btn" onclick=location.href="{{ url_for('fitness.start_fitness') }}">开始训练</button>-->
-                
-                <!--<div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-number">{% raw %}{{ stats.courses }}{% endraw %}+</div>
-                        <div class="stat-label">专业课程</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">{% raw %}{{ stats.trainers }}{% endraw %}+</div>
-                        <div class="stat-label">专业教练</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">{% raw %}{{ stats.users }}{% endraw %}+</div>
-                        <div class="stat-label">满意用户</div>
-                    </div>
-                </div>-->
-                
-                <div class="features">
-                    <div class="feature-item" v-for="feature in features">
-                        <div class="feature-icon">✓</div>
-                        <div class="feature-text">{% raw %}{{ feature.text }}{% endraw %}</div>
+        <!-- 智能康训系统 - 英雄区域 + 功能矩阵 -->
+        <div class="hero-section">
+            <div class="hero row">
+                <!-- 左侧：功能矩阵 -->
+                <div class="hero-content col-md-6">
+                    <!-- 功能矩阵（2x3正方形方块布局） -->
+                    <div class="hero-features-grid">
+                        <!-- 康训课程 -->
+                        <a href="{{ url_for('course.course_list') }}" class="feature-square">
+                            <div class="feature-square-icon orange">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h4 class="feature-square-title">康训课程</h4>
+                            <p class="feature-square-desc">专业康复训练课程</p>
+                        </a>
+                        <!-- 智能助手 -->
+                        <a href="{{ url_for('ai_assistant.ai_assistant') }}" class="feature-square">
+                            <div class="feature-square-icon green">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h4 class="feature-square-title">智能助手</h4>
+                            <p class="feature-square-desc">AI智能康复指导</p>
+                        </a>
+                        <!-- 训练计划 -->
+                        <a href="{{ url_for('auth.user_center') }}" class="feature-square">
+                            <div class="feature-square-icon orange">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <h4 class="feature-square-title">训练计划</h4>
+                            <p class="feature-square-desc">个性化训练方案</p>
+                        </a>
+                        <!-- 康训数据 -->
+                        <a href="{{ url_for('auth.user_center') }}" class="feature-square">
+                            <div class="feature-square-icon green">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4 class="feature-square-title">康训数据</h4>
+                            <p class="feature-square-desc">实时数据追踪分析</p>
+                        </a>
+                        <!-- 康训社区 -->
+                        <a href="{{ url_for('community.community') }}" class="feature-square">
+                            <div class="feature-square-icon orange">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4 class="feature-square-title">康训社区</h4>
+                            <p class="feature-square-desc">康复交流互助平台</p>
+                        </a>
+                        <!-- 营养指导 -->
+                        <a href="{{ url_for('nutrition.user_nutrition') }}" class="feature-square">
+                            <div class="feature-square-icon green">
+                                <i class="fas fa-apple-alt"></i>
+                            </div>
+                            <h4 class="feature-square-title">营养指导</h4>
+                            <p class="feature-square-desc">科学营养膳食规划</p>
+                        </a>
                     </div>
                 </div>
-            </div>
-            
-            <div class="hero-image col-md-6">
-                <div class="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item" v-for="(slide, index) in slides" :key="index" :class="{ active: currentSlide === index }">
-                            <img :src="slide.image" :alt="slide.alt" :onerror="slide.fallback">
+
+                <!-- 右侧：轮播图 -->
+                <div class="hero-image col-md-6">
+                    <div class="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item" v-for="(slide, index) in slides" :key="index" :class="{ active: currentSlide === index }">
+                                <img :src="slide.image" :alt="slide.alt" :onerror="slide.fallback">
+                            </div>
                         </div>
-                    </div>
-                    <div class="carousel-arrow carousel-prev" @click="prevSlide">&#10094;</div>
-                    <div class="carousel-arrow carousel-next" @click="nextSlide">&#10095;</div>
-                    <div class="carousel-controls">
-                        <div class="carousel-dot" v-for="(slide, index) in slides" :key="index" 
-                             :class="{ active: currentSlide === index }" 
-                             @click="goToSlide(index)"></div>
+                        <div class="carousel-arrow carousel-prev" @click="prevSlide">&#10094;</div>
+                        <div class="carousel-arrow carousel-next" @click="nextSlide">&#10095;</div>
+                        <div class="carousel-controls">
+                            <div class="carousel-dot" v-for="(slide, index) in slides" :key="index"
+                                 :class="{ active: currentSlide === index }"
+                                 @click="goToSlide(index)"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- 康训课程部分 -->
-        <section id="courses" class="section section-dark">
+        <section id="courses" class="section section-dark section-courses">
             <div class="container">
                 <div class="section-header">
-                    <h2>热门课程</h2>
+                    <h2>康训课程</h2>
                     <p>为您精选多种类型的专业康训课程</p>
                 </div>
-                <div class="courses-grid row">
-                    <div class="course-card col-md-4" v-for="course in {{courses.data}}">
-                        <div class="course-image">
-                            <img :src="course.img_url" :alt="course.title" :onerror="course.fallback">
-                            <div class="course-badge">{% raw %}{{ course.level }}{% endraw %}</div>
-                        </div>
-                        <div class="course-content">
-                            <h3>{% raw %}{{ course.name }}{% endraw %}</h3>
-                            <p class="preserve-line-breaks">{% raw %}{{ course.brife_introduction.replace(/\\n/g, '\n') }}{% endraw %}</p>
-                            <div class="course-meta">
-                                <span><i class="fas fa-clock"></i> {% raw %}{{ course.duration }}{% endraw %}</span>
-                                <!--<span><i class="fas fa-fire"></i> {% raw %}{{ course.calories }}{% endraw %} 卡路里</span>-->
-                                <span><a :href="'/fitness/'+ course.theme_code + '/man/' + course.code"><i class="fas fa-fire"></i>开始训练</a></span>
+                <div class="grid-with-arrow">
+                    <div class="courses-grid row">
+                        <div class="course-card" v-for="course in {{courses.data}}">
+                            <div class="course-image">
+                                <img :src="course.img_url" :alt="course.title" :onerror="course.fallback">
+                                <i class="fas fa-dumbbell course-icon-fallback"></i>
                             </div>
-                            <button class="btn">查看详情</button>
+                            <div class="course-content">
+                                <h3>{% raw %}{{ course.name }}{% endraw %}</h3>
+                                <p>{% raw %}{{ course.brife_introduction.replaceAll('\\n', '').substring(0,30)}}{% endraw %}...</p>
+                                <div class="course-meta">
+                                    <span><i class="fas fa-layer-group"></i> {% raw %}{{ course.groups_count }}{% endraw %}组</span>
+                                    <span><i class="fas fa-redo"></i> 每组{% raw %}{{ course.actions_count }}{% endraw %}次</span>
+                                </div>
+                                <div class="course-buttons">
+                                    <a href="{{ url_for('course.course_list') }}" class="btn btn-sm">查看详情</a>
+                                    <!--<a :href="'/fitness/'+ course.theme_code + '/man/' + course.code" class="btn btn-sm btn-green">开始训练</a>-->
+                                    <a :href="'/course/start-training/' + course.course_id" class="btn btn-sm btn-green">开始训练</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="view-all">
-                    <button class="btn btn-outline">查看全部课程</button>
+                    <!-- 右侧箭头 -->
+                    <a href="{{ url_for('course.course_list') }}" class="grid-arrow-btn" title="全部课程">
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="arrow-tooltip">全部课程</span>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- 联系我们部分 -->
-        <!-- <section id="contact" class="section">
+        <!-- 康训医师团队部分 -->
+        <section id="doctors" class="section section-doctors">
             <div class="container">
                 <div class="section-header">
-                    <h2>联系我们</h2>
-                    <p>有任何问题，请随时与我们联系</p>
+                    <h2>康训医师</h2>
+                    <p>我们拥有一支经验丰富、专业素质高的康复医师团队</p>
                 </div>
-                <div class="contact-content row">
-                    <div class="contact-info col-md-6">
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <h4>地址</h4>
-                                <p>上海市普陀区西康路1143号</p>
+                <div class="grid-with-arrow">
+                    <div class="trainers-grid row">
+                        {% for doctor in doctors.data %}
+                        <div class="trainer-card col-md-4">
+                            <div class="trainer-image">
+                                <img src="{{'/images/doctor_path?path=' + doctor.img_url.split('/')[2:] | join('/')}}" alt="{{doctor.nick_name}}" onerror="{{doctor.fallback}}" loading="lazy">
+                                <div class="doctor-badge"><i class="fas fa-user-md"></i></div>
+                            </div>
+                            <div class="trainer-content">
+                                <h3>{{ doctor.nick_name }}</h3>
+                                <p class="trainer-specialty">{{ doctor.role_name }}</p>
+                                <p class="trainer-bio">{{ doctor.rremark }}</p>
+                                <div class="doctor-credentials">
+                                    <span class="credential-tag"><i class="fas fa-certificate"></i>{{ doctor.uremark }}</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <div>
-                                <h4>电话</h4>
-                                <p>010-12345678</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>邮箱</h4>
-                                <p>admin@microware1985.com</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-clock"></i>
-                            <div>
-                                <h4>营业时间</h4>
-                                <p>周一至周五 09:00-18:00</p>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
-                     <div class="contact-form col-md-6">
-                        <form @submit.prevent="submitForm">
-                            <div class="form-group">
-                                <label for="name">姓名</label>
-                                <input type="text" id="name" v-model="contactForm.name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">邮箱</label>
-                                <input type="email" id="email" v-model="contactForm.email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">电话</label>
-                                <input type="tel" id="phone" v-model="contactForm.phone">
-                            </div>
-                            <div class="form-group">
-                                <label for="message">留言</label>
-                                <textarea id="message" v-model="contactForm.message" required></textarea>
-                            </div>
-                            <button type="submit" class="btn">发送消息</button>
-                        </form>
-                    </div> 
+                    <!-- 右侧箭头 -->
+                    <a href="{{ url_for('auth.doctors_list') }}" class="grid-arrow-btn" title="全部医师">
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="arrow-tooltip">全部医师</span>
+                    </a>
                 </div>
             </div>
-        </section> -->
+        </section>
+
 </div>
 {% endblock %}
 

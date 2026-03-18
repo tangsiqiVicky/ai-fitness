@@ -1,19 +1,21 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify
-from app.services import db_service
-from datetime import datetime
-from app.services.db_services import user_info, user_date, course, question, user_question_answer
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify, send_from_directory
+from app.services.db_services import user_info, user_date, course, question, user_question_answer, sys_user
+import os
+import json
 # 创建蓝图
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/')
 def shouye2():
     courses = course.get_course_and_theam({"is_show_index": 1})
-    return render_template('shouye.html', active_page='home', courses=courses)
+    doctors = sys_user.query_doctors({'su.del_flag': '0'}, 4)
+    return render_template("shouye.html", active_page='home', courses=courses, doctors=doctors)
 
 @auth_bp.route('/shouye', methods=['GET', 'POST'])
 def shouye():
     courses = course.get_course_and_theam({"is_show_index": 1})
-    return render_template("shouye.html", active_page='home', courses=courses)
+    doctors = sys_user.query_doctors({'su.del_flag': '0'}, 4)
+    return render_template("shouye.html", active_page='home', courses=courses, doctors=doctors)
 
 # 添加登录路由
 # 在登录成功后保存更多用户信息到session
@@ -266,3 +268,21 @@ def change_password():
     else:
         flash(f'密码修改失败: {result.msg}', 'error')
         return redirect(url_for('auth.user_center'))
+
+    # 医师列表页面
+
+
+@auth_bp.route('/doctors')
+def doctors_list():
+    doctors_result = sys_user.query_doctors({'su.del_flag': '0'}, None)
+    doctors_list = doctors_result.data
+    return render_template('doctors_list.html', active_page='doctors', doctors_list = doctors_list)
+
+@auth_bp.route('/images/<type>', methods=['GET'])
+def images(type):
+    cfg_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config', 'syscfg', 'cfg.json')
+    cfgJson = {};
+    with open(cfg_path, 'r', encoding='utf-8') as f:
+        cfgJson = json.load(f)
+    path = request.args.get("path")
+    return send_from_directory(cfgJson[type], path)

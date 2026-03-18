@@ -21,7 +21,7 @@
                     <span class="author-name">{{ discussion.author_name or '匿名用户' }}</span>
                 </div>
                 <div class="post-info">
-                    <span class="post-time"><i class="far fa-clock"></i> {{ discussion.create_time.strftime('%Y-%m-%d %H:%M') if discussion.create_time else '未知时间' }}</span>
+                    <span class="post-time"><i class="far fa-clock"></i> {{ discussion.created_time.strftime('%Y-%m-%d %H:%M') if discussion.created_time else '未知时间' }}</span>
                     <span class="post-views"><i class="far fa-eye"></i> {{ discussion.views|default(0) }} 浏览</span>
                     <span class="post-replies"><i class="far fa-comment"></i> {{ replies|length }} 回复</span>
                 </div>
@@ -49,7 +49,7 @@
                 <button class="action-btn report-btn" id="reportBtn">
                     <i class="fas fa-flag"></i> 举报
                 </button>
-                {% if id|int == discussion.create_by|int %}
+                {% if id|int == discussion.created_by|int %}
                 <button class="action-btn delete-btn" id="deleteBtn" data-id="{{ discussion.id }}">
                     <i class="fas fa-trash-alt"></i> 删除
                 </button>
@@ -67,7 +67,7 @@
                         <img src="{{ url_for('static', filename='img/default-avatar.png') }}" alt="回复者头像" class="reply-avatar">
                         <div class="reply-author-info">
                             <span class="reply-author-name">{{ reply.author_name or '匿名用户' }}</span>
-                            <span class="reply-time">{{ reply.create_time.strftime('%Y-%m-%d %H:%M') if reply.create_time else '未知时间' }}</span>
+                            <span class="reply-time">{{ reply.created_time.strftime('%Y-%m-%d %H:%M') if reply.created_time else '未知时间' }}</span>
                         </div>
                     </div>
                     <div class="reply-content">

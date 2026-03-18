@@ -1,0 +1,71 @@
+{% extends "main.html" %}
+
+{% block extra_css %}
+<!-- 康训课程页专属样式 -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/course_list.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="course-container">
+    <!-- 标题和筛选合并为一排 -->
+    <div class="page-header-row">
+        <!-- 左侧：标题区域 -->
+        <div class="page-header-left">
+            <h1><i class="fas fa-graduation-cap"></i> 康训课程</h1>
+            <p>专业的康复训练课程，帮助您科学有效地进行康复训练</p>
+        </div>
+
+        <!-- 右侧：筛选区域 -->
+        <div class="page-header-right">
+            <form class="filter-form" action="{{ url_for('course.filter_courses') }}" method="GET">
+                <select name="theme_id">
+                    <option value="">全部课程主题</option>
+                    {% for theme in themes %}
+                    <option value="{{ theme.id }}" {% if selected_theme == theme.id|string %}selected{% endif %}>{{ theme.theme_name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="keyword" placeholder="搜索课程名称..." value="{{ keyword or '' }}">
+                <button type="submit"><i class="fas fa-search"></i> 搜索</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 课程列表 -->
+    {% if courses %}
+    <div class="courses-grid">
+        {% for c in courses %}
+        <div class="course-card">
+            <div class="course-image">
+                {% if c.img_url %}
+                <img src="{{ c.img_url }}" alt="{{ c.course_name }}">
+                {% else %}
+                <!-- 复用首页课程模块的图片 -->
+                {% set course_images = ['course1.avif', 'course2.avif', 'course3.avif', 'course4.avif'] %}
+                <img src="{{ url_for('static', filename='img/' + course_images[loop.index0 % 4]) }}" alt="{{ c.course_name }}"
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517838277536-f5f99be501cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';">
+                {% endif %}
+            </div>
+            <div class="course-content">
+                <h3>{{ c.course_name or c.course_action or '康复课程' }}</h3>
+                <p>{{ c.course_desc or c.course_intro or '专业的康复训练课程，帮助您恢复健康。' }}</p>
+                <div class="course-meta">
+                    <span><i class="fas fa-layer-group"></i> {{ c.group_count or 3 }}组</span>
+                    <span><i class="fas fa-redo"></i> 每组{{ c.rep_count or 10 }}次</span>
+                </div>
+                <div class="course-actions">
+                    <a href="{{ url_for('course.course_detail', course_id=c.course_id) }}" class="btn-detail">查看详情</a>
+                    <a href="{{ url_for('course.start_training', course_id=c.course_id) }}" class="btn-start">开始训练</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-inbox"></i>
+        <h3>暂无课程</h3>
+        <p>目前还没有可用的课程，请稍后再来查看。</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

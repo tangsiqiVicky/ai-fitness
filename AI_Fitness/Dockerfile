@@ -2,10 +2,11 @@
 # FROM python:3.9-slim
 FROM python:3.10.0
 # FROM mirror.tuna.tsinghua.edu.cn/python/3.9.0
+#设置容器时区
+ENV TZ=Asia/Shanghai
 
 # 设置工作目录
 WORKDIR /app
-
 # 复制依赖文件
 COPY requirements.txt .
 
@@ -19,6 +20,9 @@ RUN pip install --no-cache-dir \
     -r requirements.txt && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     rm -rf ~/.cache/pip
+
+# 创建需要挂载的目录（作为挂载点）
+RUN mkdir -p /app/file
 
 # 复制项目文件
 COPY . .

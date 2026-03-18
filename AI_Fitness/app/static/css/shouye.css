@@ -2,6 +2,13 @@
 #shouye {
     color: #ffffff;
     overflow-x: hidden;
+    /* 主色调渐变背景 - 深蓝色专业风格 */
+    background: linear-gradient(135deg,
+            rgba(15, 23, 36, 1) 0%,
+            rgba(26, 37, 53, 1) 25%,
+            rgba(42, 82, 181, 0.1) 50%,
+            rgba(74, 134, 232, 0.08) 75%,
+            rgba(15, 23, 36, 1) 100%);
 }
 
 /* 英雄区域 */
@@ -10,6 +17,10 @@
     height: 85vh;
     padding: 0 40px;
     font-style: italic;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(42, 82, 181, 0.05) 50%,
+            rgba(74, 134, 232, 0.05) 100%);
 }
 
 #shouye .hero-content {
@@ -42,6 +53,151 @@
     text-transform: uppercase;
 }
 
+#shouye .hero .hero-title {
+    font-size: 52px;
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+    text-align: center;
+    font-style: normal;
+    background: linear-gradient(135deg, #2A52B5 0%, #4A86E8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+#shouye .hero .hero-subtitle {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-secondary, #c0c8d0);
+    margin-bottom: 30px;
+    font-style: normal;
+    text-align: center;
+}
+
+/* ================================
+   功能矩阵 - 6个正方形方块样式
+   ================================ */
+
+#shouye .hero-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 48px;
+    margin: 0 auto;
+    justify-content: center;
+    padding: 48px;
+}
+
+#shouye .feature-square {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(145deg,
+            rgba(26, 37, 53, 0.95) 0%,
+            rgba(36, 51, 71, 0.9) 100%);
+    border-radius: 24px;
+    border: 1px solid rgba(74, 134, 232, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    text-decoration: none;
+    color: #ffffff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#shouye .feature-square::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            rgba(74, 134, 232, 0.1) 0%,
+            rgba(42, 82, 181, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#shouye .feature-square:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(74, 134, 232, 0.6);
+    box-shadow: 0 12px 32px rgba(74, 134, 232, 0.25),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#shouye .feature-square:hover::before {
+    opacity: 1;
+}
+
+#shouye .feature-square:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+#shouye .feature-square-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#shouye .feature-square-icon.orange {
+    background: linear-gradient(135deg, #4A86E8 0%, #2A52B5 100%);
+    box-shadow: 0 4px 16px rgba(74, 134, 232, 0.4);
+}
+
+#shouye .feature-square-icon.green {
+    background: linear-gradient(135deg, #2E8B57 0%, #236B43 100%);
+    box-shadow: 0 4px 16px rgba(46, 139, 87, 0.4);
+}
+
+#shouye .feature-square:hover .feature-square-icon {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(74, 134, 232, 0.5);
+}
+
+#shouye .feature-square:hover .feature-square-icon.green {
+    box-shadow: 0 6px 20px rgba(46, 139, 87, 0.5);
+}
+
+#shouye .feature-square-icon i {
+    font-size: 26px;
+    color: #ffffff;
+}
+
+#shouye .feature-square-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    color: #ffffff;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+#shouye .feature-square-desc {
+    font-size: 12px;
+    color: rgba(192, 200, 208, 0.7);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    line-height: 1.3;
+    font-weight: 400;
+}
+
 #shouye .hero .title1 {
     font-size: 48px;
     margin-bottom: 20px;
@@ -61,25 +217,50 @@
 #shouye .hero p {
     font-size: 18px;
     margin-bottom: 30px;
-    color: #a0a0a0;
+    color: var(--text-secondary, #c0c8d0);
+    /* 提升对比度 */
     line-height: 1.6;
 }
 
 #shouye .cta-btn {
-    background-color: #00c8ff;
-    color: #0c1a2a;
+    background: linear-gradient(135deg, #4A86E8 0%, #2A52B5 100%);
+    color: #ffffff;
     border: none;
-    padding: 12px 30px;
-    border-radius: 5px;
-    font-weight: bold;
+    padding: 14px 36px;
+    border-radius: var(--radius-sm, 6px);
+    font-weight: 700;
     font-size: 18px;
     cursor: pointer;
     align-self: flex-start;
-    transition: background-color 0.3s;
+    transition: all var(--transition-normal, 0.25s ease);
+    box-shadow: 0 4px 20px rgba(74, 134, 232, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+#shouye .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
 }
 
 #shouye .cta-btn:hover {
-    background-color: #00a8df;
+    background: linear-gradient(135deg, #6B9FEF 0%, #4A86E8 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(74, 134, 232, 0.5);
+}
+
+#shouye .cta-btn:hover::before {
+    left: 100%;
+}
+
+#shouye .cta-btn:active {
+    transform: translateY(-1px);
 }
 
 #shouye .stats {
@@ -94,16 +275,17 @@
 #shouye .stat-number {
     font-size: 36px;
     font-weight: bold;
-    color: #00c8ff;
+    color: #4A86E8;
 }
 
 #shouye .stat-label {
     font-size: 14px;
-    color: #a0a0a0;
+    color: var(--text-secondary, #c0c8d0);
+    /* 提升对比度 */
 }
 
 #shouye .features {
-    background-color: #0f2133;
+    background-color: #1A2535;
     padding: 20px;
     border-radius: 10px;
     margin-top: 40px;
@@ -118,7 +300,7 @@
 #shouye .feature-icon {
     width: 24px;
     height: 24px;
-    background-color: #00c8ff;
+    background-color: #4A86E8;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -136,7 +318,15 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 16px;
+    /* 主色调搭配的幕布背景 - 深蓝色 */
+    background: linear-gradient(135deg,
+            rgba(74, 134, 232, 0.15) 0%,
+            rgba(42, 82, 181, 0.1) 50%,
+            rgba(74, 134, 232, 0.08) 100%);
+    border: 2px solid rgba(74, 134, 232, 0.2);
+    box-shadow: 0 8px 32px rgba(74, 134, 232, 0.15),
+        0 4px 16px rgba(42, 82, 181, 0.1);
 }
 
 #shouye .carousel-inner {
@@ -177,22 +367,31 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.4);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(74, 134, 232, 0.3);
+}
+
+#shouye .carousel-dot:hover {
+    background-color: rgba(74, 134, 232, 0.5);
+    transform: scale(1.1);
 }
 
 #shouye .carousel-dot.active {
-    background-color: #00c8ff;
+    background: linear-gradient(135deg, #2A52B5 0%, #4A86E8 100%);
+    border-color: transparent;
+    transform: scale(1.2);
+    box-shadow: 0 2px 8px rgba(74, 134, 232, 0.4);
 }
 
 #shouye .carousel-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background-color: rgba(0, 0, 0, 0.3);
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba(74, 134, 232, 0.8) 0%, rgba(42, 82, 181, 0.9) 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -201,11 +400,14 @@
     font-size: 20px;
     cursor: pointer;
     z-index: 10;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(74, 134, 232, 0.3);
 }
 
 #shouye .carousel-arrow:hover {
-    background-color: rgba(0, 0, 0, 0.6);
+    background: linear-gradient(135deg, rgba(107, 159, 239, 0.9) 0%, rgba(74, 134, 232, 1) 100%);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 16px rgba(74, 134, 232, 0.4);
 }
 
 #shouye .carousel-prev {
@@ -224,16 +426,123 @@
 }
 
 #shouye .section {
-    padding: 100px 0;
+    padding: 60px 0;
+    position: relative;
 }
 
 #shouye .section-dark {
-    background-color: #0f1d2c;
+    background: linear-gradient(135deg,
+            rgba(15, 23, 36, 0.95) 0%,
+            rgba(42, 82, 181, 0.08) 50%,
+            rgba(74, 134, 232, 0.05) 100%);
 }
 
 #shouye .section-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+}
+
+/* 标题与按钮并排布局 */
+#shouye .section-header-with-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+#shouye .section-header-left {
+    text-align: left;
+}
+
+#shouye .section-header-left h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+#shouye .section-header-left p {
+    font-size: 18px;
+    color: var(--text-secondary, #c0c8d0);
+    margin: 0;
+}
+
+/* 课程和医师模块间距调整 */
+#shouye .section-courses {
+    padding-bottom: 30px;
+}
+
+#shouye .section-doctors {
+    padding-top: 30px;
+}
+
+/* 网格与箭头并排布局 */
+#shouye .grid-with-arrow {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#shouye .grid-with-arrow .courses-grid,
+#shouye .grid-with-arrow .trainers-grid {
+    flex: 1;
+}
+
+/* 右侧箭头按钮 */
+#shouye .grid-arrow-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(46, 139, 87, 0.3) 0%, rgba(46, 139, 87, 0.15) 100%);
+    border: 2px solid rgba(46, 139, 87, 0.6);
+    color: #2E8B57;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    flex-shrink: 0;
+}
+
+#shouye .grid-arrow-btn:hover {
+    background: linear-gradient(135deg, #2E8B57 0%, #236B43 100%);
+    color: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(46, 139, 87, 0.5);
+}
+
+#shouye .grid-arrow-btn .arrow-tooltip {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+#shouye .grid-arrow-btn .arrow-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0, 0, 0, 0.85) transparent;
+}
+
+#shouye .grid-arrow-btn:hover .arrow-tooltip {
+    opacity: 1;
+    visibility: visible;
 }
 
 #shouye .section-header h2 {
@@ -244,12 +553,13 @@
 
 #shouye .section-header p {
     font-size: 18px;
-    color: #a0a0a0;
+    color: var(--text-secondary, #c0c8d0);
+    /* 提升对比度 */
 }
 
 #shouye .btn {
-    background-color: #00c8ff;
-    color: #0c1a2a;
+    background-color: #4A86E8;
+    color: #ffffff;
     border: none;
     padding: 10px 25px;
     border-radius: 5px;
@@ -260,18 +570,18 @@
 }
 
 #shouye .btn:hover {
-    background-color: #00a8df;
+    background-color: #2A52B5;
 }
 
 #shouye .btn-outline {
     background-color: transparent;
-    border: 2px solid #00c8ff;
-    color: #00c8ff;
+    border: 2px solid #4A86E8;
+    color: #ffffff;
 }
 
 #shouye .btn-outline:hover {
-    background-color: #00c8ff;
-    color: #0c1a2a;
+    background-color: #4A86E8;
+    color: #ffffff;
 }
 
 /* 关于我们部分 */
@@ -298,7 +608,7 @@
 #shouye .about-text h3 {
     font-size: 24px;
     margin-bottom: 15px;
-    color: #00c8ff;
+    color: #4A86E8;
 }
 
 #shouye .about-text p {
@@ -319,51 +629,92 @@
 }
 
 #shouye .about-text li i {
-    color: #00c8ff;
+    color: #4A86E8;
     margin-right: 10px;
 }
 
-/* 课程部分 */
+/* ================================
+   课程卡片样式 - 标准化配置
+   【重要】此配置需与 course_list.css 中的课程卡片保持一致
+
+   标准配置参数：
+   - 网格: repeat(4, 1fr), gap: 24px
+   - 卡片背景: #1A2535
+   - 卡片圆角: 16px
+   - 卡片边框: 1px solid #2A3A4F
+   - 悬停边框: #4A86E8
+   - 图片高度: 180px
+   - 图片渐变: #2A52B5 -> #4A86E8
+   - 内容padding: 20px
+   - 标题: 18px, #ffffff
+   - 描述: 14px, #B0C4DE
+   - 元信息: 13px, #7A8FA8
+   ================================ */
+
 #shouye .courses-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
     margin-bottom: 40px;
 }
 
 #shouye .course-card {
-    background-color: #0c1a2a;
-    border-radius: 10px;
+    background: #1A2535;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 1px solid #2A3A4F;
 }
 
 #shouye .course-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    border-color: #4A86E8;
 }
 
 #shouye .course-image {
+    height: 180px;
+    background: linear-gradient(135deg, #2A52B5 0%, #4A86E8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
     position: relative;
-    height: 200px;
 }
 
+/* 课程卡片图片样式 */
 #shouye .course-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#shouye .course-image .course-icon-fallback {
+    position: relative;
+    z-index: 1;
+    opacity: 0.3;
+}
+
+#shouye .course-image img + .course-icon-fallback {
+    display: none;
 }
 
 #shouye .course-badge {
     position: absolute;
     top: 15px;
     right: 15px;
-    background-color: #00c8ff;
-    color: #0c1a2a;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 14px;
+    background-color: rgba(74, 134, 232, 0.9);
+    color: #ffffff;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    backdrop-filter: blur(4px);
 }
 
 #shouye .course-content {
@@ -371,60 +722,92 @@
 }
 
 #shouye .course-content h3 {
-    font-size: 20px;
     margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 #shouye .course-content p {
-    color: #a0a0a0;
+    color: #B0C4DE;
     margin-bottom: 15px;
-    line-height: 1.5;
+    line-height: 1.6;
+    font-size: 14px;
+    height: 6vh;
 }
 
 #shouye .course-meta {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    color: #e0e0e0;
-    font-size: 14px;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #7A8FA8;
+}
+
+#shouye .course-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 #shouye .course-meta span i {
-    margin-right: 5px;
-    color: #00c8ff;
+    color: #4A86E8;
 }
 
 #shouye .view-all {
     text-align: center;
 }
 
-/* 教练团队部分 */
+/* ================================
+   医师卡片样式 - 标准化配置（基础部分）
+   【重要】此配置需与 doctors_list.css 中的医师卡片保持一致
+
+   标准配置参数：
+   - 网格: repeat(4, 1fr), gap: 24px
+   - 卡片背景: 深绿渐变 #2E8B57 -> #236B43
+   - 卡片圆角: 16px
+   - 卡片边框: 1px solid rgba(255,255,255,0.2)
+   - 悬停边框: rgba(255,255,255,0.4)
+   - 图片高度: 280px
+   - 内容padding: 20px
+   - 文字颜色: 白色系
+   ================================ */
+
 #shouye .trainers-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
 }
 
 #shouye .trainer-card {
-    background-color: #0f2133;
-    border-radius: 10px;
+    background: linear-gradient(145deg, #2E8B57 0%, #236B43 100%);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s;
+    box-shadow: 0 8px 32px rgba(46, 139, 87, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 #shouye .trainer-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(46, 139, 87, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 #shouye .trainer-image {
-    height: 300px;
+    height: 280px;
+    position: relative;
 }
 
 #shouye .trainer-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+#shouye .trainer-card:hover .trainer-image img {
+    transform: scale(1.05);
 }
 
 #shouye .trainer-content {
@@ -433,20 +816,24 @@
 }
 
 #shouye .trainer-content h3 {
-    font-size: 22px;
-    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #ffffff;
 }
 
 #shouye .trainer-specialty {
-    color: #00c8ff;
-    font-weight: bold;
-    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 14px;
 }
 
 #shouye .trainer-bio {
-    color: #a0a0a0;
-    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 15px;
     line-height: 1.5;
+    font-size: 13px;
 }
 
 #shouye .trainer-social {
@@ -459,17 +846,18 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: #0c1a2a;
+    background-color: rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #00c8ff;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s;
 }
 
 #shouye .social-icon:hover {
-    background-color: #00c8ff;
-    color: #0c1a2a;
+    background-color: #ffffff;
+    color: #2E8B57;
 }
 
 /* 用户评价部分 */
@@ -480,11 +868,12 @@
 }
 
 #shouye .testimonial-card {
-    background-color: #0c1a2a;
-    border-radius: 10px;
+    background-color: var(--bg-card, #112233);
+    border-radius: var(--radius-md, 12px);
     padding: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md, 0 4px 16px rgba(0, 0, 0, 0.2));
     display: none;
+    border: 1px solid var(--border-color, #1e3a5a);
 }
 
 #shouye .testimonial-card.active {
@@ -497,7 +886,7 @@
 }
 
 #shouye .testimonial-quote i {
-    color: #00c8ff;
+    color: #4A86E8;
     font-size: 24px;
     margin: 0 10px;
 }
@@ -550,7 +939,7 @@
 }
 
 #shouye .testimonial-dot.active {
-    background-color: #00c8ff;
+    background-color: #4A86E8;
 }
 
 /* 联系我们部分 */
@@ -560,19 +949,17 @@
 }
 
 #shouye .contact-info {
-    /* flex: 1; */
-    margin: 0 auto;
-
+    flex: 1;
 }
 
 #shouye .contact-item {
     display: flex;
-    margin:0 auto 10px;
+    margin-bottom: 30px;
 }
 
 #shouye .contact-item i {
     font-size: 24px;
-    color: #00c8ff;
+    color: #4A86E8;
     margin-right: 20px;
     width: 24px;
 }
@@ -583,7 +970,8 @@
 }
 
 #shouye .contact-item p {
-    color: #a0a0a0;
+    color: var(--text-secondary, #c0c8d0);
+    /* 提升对比度 */
 }
 
 #shouye .contact-form {
@@ -604,8 +992,8 @@
 #shouye .form-group textarea {
     width: 100%;
     padding: 12px;
-    background-color: #0f2133;
-    border: 1px solid #1c3654;
+    background-color: #1A2535;
+    border: 1px solid #2A3A4F;
     border-radius: 5px;
     color: #ffffff;
 }
@@ -617,18 +1005,24 @@
 
 /* 响应式设计 */
 @media (max-width: 1200px) {
-    #shouye .hero h2, 
-    #shouye .hero .title1, 
+
+    #shouye .hero h2,
+    #shouye .hero .title1,
     #shouye .hero .title2 {
         font-size: 40px;
     }
-    
+
     #shouye .stat-item {
         margin-right: 20px;
     }
-    
+
     #shouye .stat-number {
         font-size: 30px;
+    }
+
+    #shouye .courses-grid,
+    #shouye .trainers-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -636,13 +1030,13 @@
     #shouye .hero {
         height: auto;
     }
-    
-    #shouye .hero h2, 
-    #shouye .hero .title1, 
+
+    #shouye .hero h2,
+    #shouye .hero .title1,
     #shouye .hero .title2 {
         font-size: 36px;
     }
-    
+
     #shouye .courses-grid,
     #shouye .trainers-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -652,60 +1046,60 @@
 @media (max-width: 768px) {
     #shouye .hero {
         flex-direction: column;
-        
+
         height: auto;
     }
-    
+
     #shouye .hero-content {
         padding-right: 0;
         margin-bottom: 40px;
         text-align: center;
     }
-    
-    #shouye .hero .title1, 
+
+    #shouye .hero .title1,
     #shouye .hero .title2 {
         font-size: 32px;
         text-align: center;
     }
-    
+
     #shouye .hero p {
         font-size: 16px;
     }
-    
+
     #shouye .cta-btn {
         align-self: center;
     }
-    
+
     #shouye .stats {
         justify-content: center;
     }
-    
+
     #shouye .stat-item {
         margin: 0 15px;
     }
-    
+
     #shouye .about-content,
     #shouye .contact-content {
         flex-direction: column;
         gap: 30px;
     }
-    
+
     #shouye .about-image,
     #shouye .about-text,
     #shouye .contact-info,
     #shouye .contact-form {
         width: 100%;
     }
-    
+
     #shouye .courses-grid,
     #shouye .trainers-grid {
         grid-template-columns: 1fr;
     }
-    
+
     #shouye .section {
         padding: 60px 20px;
     }
-    
+
     #shouye .carousel-arrow {
         width: 30px;
         height: 30px;
@@ -714,53 +1108,422 @@
 }
 
 @media (max-width: 480px) {
-    #shouye .hero .title1, 
+
+    #shouye .hero .title1,
     #shouye .hero .title2 {
         font-size: 28px;
     }
-    
+
     #shouye .section-header h2 {
         font-size: 24px;
     }
-    
+
     #shouye .section-header p {
         font-size: 14px;
     }
-    
+
     #shouye .stats {
         flex-direction: column;
         align-items: center;
     }
-    
+
     #shouye .stat-item {
         margin: 10px 0;
     }
-    
+
     #shouye .features {
         flex-direction: column;
     }
-    
+
     #shouye .feature-item {
         margin-bottom: 15px;
     }
-    
+
     #shouye .carousel-controls {
         bottom: 5px;
     }
-    
+
     #shouye .carousel-dot {
         width: 8px;
         height: 8px;
         margin: 0 4px;
     }
-    
+
     #shouye .testimonial-author {
         flex-direction: column;
         text-align: center;
     }
-    
+
     #shouye .testimonial-author img {
         margin-bottom: 10px;
         margin-right: 0;
+    }
+}
+
+/* ================================
+   功能矩阵区域样式
+   ================================ */
+
+#shouye #features-grid {
+    padding: 60px 0;
+    background: linear-gradient(180deg, var(--bg-dark, #0c1a2a) 0%, var(--bg-light, #0f2133) 100%);
+}
+
+#shouye .features-matrix {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+}
+
+#shouye .feature-block {
+    flex: 0 0 calc(33.333% - 16px);
+    max-width: calc(33.333% - 16px);
+    padding: 0;
+}
+
+#shouye .feature-block-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+#shouye .feature-block-inner {
+    background: var(--bg-card, #112233);
+    border-radius: 16px;
+    padding: 32px 24px;
+    height: 100%;
+    text-align: center;
+    border: 1px solid var(--border-color, #1e3a5a);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#shouye .feature-block-inner:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border-color: #4A86E8;
+}
+
+#shouye .feature-block-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+#shouye .feature-block-icon i {
+    font-size: 36px;
+    color: #ffffff;
+}
+
+#shouye .feature-block h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #ffffff;
+}
+
+#shouye .feature-block p {
+    font-size: 14px;
+    color: var(--text-secondary, #c0c8d0);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+#shouye .feature-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #4A86E8;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#shouye .feature-btn i {
+    transition: transform 0.3s ease;
+}
+
+#shouye .feature-block-inner:hover .feature-btn {
+    color: #6B9FEF;
+}
+
+#shouye .feature-block-inner:hover .feature-btn i {
+    transform: translateX(4px);
+}
+
+/* 课程按钮组样式 - 标准化（与康训课程页一致） */
+#shouye .course-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+#shouye .course-buttons .btn {
+    flex: 1;
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* 查看详情按钮 - 蓝色描边风格 */
+#shouye .course-buttons .btn-sm:not(.btn-green) {
+    background: rgba(74, 134, 232, 0.1);
+    color: #4A86E8;
+    border: 1px solid rgba(74, 134, 232, 0.3);
+}
+
+#shouye .course-buttons .btn-sm:not(.btn-green):hover {
+    background: rgba(74, 134, 232, 0.2);
+    border-color: #4A86E8;
+}
+
+/* 开始训练按钮 - 深绿色渐变 */
+#shouye .course-buttons .btn-green {
+    background: linear-gradient(135deg, #2E8B57 0%, #236B43 100%);
+    color: white;
+    border: none;
+}
+
+#shouye .course-buttons .btn-green:hover {
+    background: linear-gradient(135deg, #236B43 0%, #1A5233 100%);
+    box-shadow: 0 4px 15px rgba(46, 139, 87, 0.4);
+}
+
+/* 功能矩阵响应式 */
+@media (max-width: 992px) {
+    #shouye .feature-block {
+        flex: 0 0 calc(50% - 12px);
+        max-width: calc(50% - 12px);
+    }
+}
+
+@media (max-width: 576px) {
+    #shouye .feature-block {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    #shouye .feature-block-inner {
+        padding: 24px 20px;
+    }
+
+    #shouye .feature-block-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+    }
+
+    #shouye .feature-block-icon i {
+        font-size: 28px;
+    }
+
+    #shouye .feature-block h3 {
+        font-size: 18px;
+    }
+
+    #shouye .course-buttons {
+        flex-direction: column;
+    }
+
+    #shouye .course-buttons .btn {
+        width: 100%;
+    }
+}
+
+/* ================================
+   康训医师区块背景和额外样式
+   注：医师卡片基础样式已在上方 .trainer-card 中定义
+   ================================ */
+
+#shouye #doctors {
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(46, 139, 87, 0.05) 50%,
+            rgba(74, 134, 232, 0.03) 100%);
+}
+
+/* 医师徽章 - 白色半透明 */
+#shouye .doctor-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 资质标签 */
+#shouye .doctor-credentials {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+#shouye #doctors .credential-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#shouye #doctors .credential-tag i {
+    color: #ffffff;
+}
+
+/* 医师卡片悬停效果增强 */
+#shouye #doctors .trainer-card:hover .doctor-badge {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+    #shouye .hero .hero-title {
+        font-size: 36px;
+    }
+
+    #shouye .hero .hero-subtitle {
+        font-size: 14px;
+    }
+
+    /* 功能矩阵响应式 - 平板 */
+    #shouye .hero-content {
+        flex: 1;
+        padding-right: 30px;
+    }
+
+    #shouye .hero-image {
+        flex: 1;
+    }
+
+    #shouye .hero-features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        max-width: 100%;
+    }
+
+    #shouye .feature-square {
+        padding: 16px 10px;
+        border-radius: 14px;
+        min-height: 130px;
+    }
+
+    #shouye .feature-square-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 11px;
+        margin-bottom: 12px;
+    }
+
+    #shouye .feature-square-icon i {
+        font-size: 20px;
+    }
+
+    #shouye .feature-square-title {
+        font-size: 14px;
+    }
+
+    #shouye .feature-square-desc {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    /* 功能矩阵响应式 - 手机 */
+    #shouye .hero-features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    #shouye .feature-square {
+        padding: 12px 8px;
+        border-radius: 12px;
+        min-height: 105px;
+    }
+
+    #shouye .feature-square-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        margin-bottom: 10px;
+    }
+
+    #shouye .feature-square-icon i {
+        font-size: 17px;
+    }
+
+    #shouye .feature-square-title {
+        font-size: 12px;
+    }
+
+    #shouye .feature-square-desc {
+        font-size: 9px;
+    }
+
+    #shouye .feature-square:hover {
+        transform: translateY(-3px) scale(1.01);
+    }
+}
+
+@media (max-width: 400px) {
+
+    /* 功能矩阵响应式 - 小屏手机改为2列 */
+    #shouye .hero-features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    #shouye .feature-square {
+        padding: 14px 10px;
+        min-height: 120px;
+    }
+
+    #shouye .feature-square-icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 12px;
+    }
+
+    #shouye .feature-square-icon i {
+        font-size: 18px;
+    }
+
+    #shouye .feature-square-title {
+        font-size: 13px;
+    }
+
+    #shouye .feature-square-desc {
+        font-size: 10px;
     }
 }

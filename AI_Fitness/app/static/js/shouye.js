@@ -37,17 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             slides: [
                 { 
-                    image: staticUrl + 'img/pic1.png',
+                    image: staticUrl + 'img/fitness-hero.avif',
                     alt: "康训形象1",
                     fallback: "this.src='https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'; this.onerror=null;"
                 },
-                { 
-                    image: staticUrl + 'img/pic2.jpg',
+                {
+                    image: staticUrl + 'img/fitness-hero2.avif',
                     alt: "康训形象2",
                     fallback: "this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'; this.onerror=null;"
                 },
-                { 
-                    image: staticUrl + 'img/pic3.jpg',
+                {
+                    image: staticUrl + 'img/fitness-hero3.avif',
                     alt: "康训形象3",
                     fallback: "this.src='https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'; this.onerror=null;"
                 }
@@ -79,29 +79,49 @@ document.addEventListener('DOMContentLoaded', function() {
                     level: '全级别',
                     duration: '75分钟',
                     calories: '250'
+                },
+                {
+                    title: '康复理疗',
+                    description: '针对运动损伤和慢性疼痛的专业康复训练课程',
+                    image: staticUrl + 'img/course4.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'; this.onerror=null;",
+                    level: '全级别',
+                    duration: '50分钟',
+                    calories: '200'
                 }
             ],
-            trainers: [
+            doctors: [
                 {
-                    name: '李教练',
-                    specialty: '力量训练专家',
-                    bio: '拥有10年康训教练经验，专注于力量训练和体能提升',
-                    image: staticUrl + 'img/trainer1.avif',
-                    fallback: "this.src='https://images.unsplash.com/photo-1571731956672-f2b94d7dd0cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                    name: '李志远 医师',
+                    specialty: '运动康复科主任',
+                    bio: '北京协和医学院博士，专注运动损伤康复与骨科康复，15年临床经验',
+                    credential: '主任医师',
+                    image: staticUrl + 'img/doctor1.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
                 },
                 {
-                    name: '王教练',
-                    specialty: '有氧训练专家',
-                    bio: '专注于有氧训练和减脂计划，帮助无数客户成功减重',
-                    image: staticUrl + 'img/trainer2.avif',
-                    fallback: "this.src='https://images.unsplash.com/photo-1594381898411-846e7d193883?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                    name: '王雅琪 医师',
+                    specialty: '神经康复科专家',
+                    bio: '复旦大学医学硕士，擅长脑卒中、脊髓损伤等神经系统康复治疗',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor2.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
                 },
                 {
-                    name: '张教练',
-                    specialty: '瑜伽与康复训练',
-                    bio: '瑜伽导师和康复训练专家，擅长帮助客户恢复身体机能',
-                    image: staticUrl + 'img/trainer3.avif',
-                    fallback: "this.src='https://images.unsplash.com/photo-1579758629938-03607ccdbaba?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                    name: '陈明华 医师',
+                    specialty: '中医康复科专家',
+                    bio: '中医药大学博士，结合传统中医与现代康复技术，擅长颈椎腰椎康复',
+                    credential: '主治医师',
+                    image: staticUrl + 'img/doctor3.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
+                },
+                {
+                    name: '张慧敏 医师',
+                    specialty: '骨科康复专家',
+                    bio: '上海交通大学医学博士，专注骨折术后康复与关节置换康复，12年临床经验',
+                    credential: '副主任医师',
+                    image: staticUrl + 'img/doctor4.avif',
+                    fallback: "this.src='https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'; this.onerror=null;"
                 }
             ],
             testimonials: [

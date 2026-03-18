@@ -33,7 +33,7 @@
                         </h3>
                         <div class="discussion-meta">
                             <span class="author">{{ discussion.author_name or '匿名用户' }}</span>
-                            <span class="time">{{ discussion.create_time.strftime('%Y-%m-%d %H:%M') if discussion.create_time else '未知时间' }}</span>
+                            <span class="time">{{ discussion.created_time.strftime('%Y-%m-%d %H:%M') if discussion.created_time else '未知时间' }}</span>
                             <span class="replies"><i class="fas fa-comment"></i> {{ discussion.reply_count or 0 }}</span>
                         </div>
                         <p class="discussion-excerpt">{{ discussion.content[:150] + '...' if discussion.content|length > 150 else discussion.content }}</p>

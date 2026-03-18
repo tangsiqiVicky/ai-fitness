@@ -1,19 +1,19 @@
 /* 康训社区样式 */
 :root {
-    --primary-color: #00c8ff;
-    --primary-dark: #00a8df;
-    --secondary-color: #20409a;
-    --bg-dark: #0c1a2a;
-    --bg-darker: #0a1522;
-    --bg-light: #0f2133;
-    --bg-lighter: #1e3a5a;
+    --primary-color: #4A86E8;
+    --primary-dark: #2A52B5;
+    --secondary-color: #2E8B57;
+    --bg-dark: #0F1724;
+    --bg-darker: #0A1019;
+    --bg-light: #1A2535;
+    --bg-lighter: #243347;
     --text-light: #ffffff;
-    --text-muted: #a0a0a0;
-    --border-color: #1e3a5a;
-    --success-color: #28a745;
-    --warning-color: #ffc107;
-    --danger-color: #dc3545;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --text-muted: #7A8FA8;
+    --border-color: #2A3A4F;
+    --success-color: #2E8B57;
+    --warning-color: #FFB347;
+    --danger-color: #FF6B6B;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     --transition: all 0.3s ease;
 }
 

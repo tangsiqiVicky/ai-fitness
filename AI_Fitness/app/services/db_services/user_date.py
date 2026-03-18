@@ -182,7 +182,8 @@ def save_fitness_report(user_id: int, report_data: dict, exercise_type: str, act
         'source': report_data.get('score', 0),  # 分数
         'analysis': report_data.get('summary', ''),  # 分析摘要
         'action_analyse': action_analyse,  # 动作分析
-        'course_id': report_data.get('course_id', 0)
+        'course_id': report_data.get('course_id', 0),
+        'batch_no': report_data.get('batch_no', None)
     }
     
     # 处理建议数据 - 将列表转换为字符串

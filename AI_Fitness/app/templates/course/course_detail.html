@@ -1,0 +1,286 @@
+{% extends "main.html" %}
+
+{% block extra_css %}
+<style>
+    .detail-container {
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .back-link {
+        color: #11998e;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .course-header {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .course-header h1 {
+        margin-bottom: 15px;
+    }
+
+    .course-header p {
+        opacity: 0.9;
+        max-width: 600px;
+    }
+
+    .video-section {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .video-container {
+        background: #000;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .video-container video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .video-placeholder {
+        text-align: center;
+    }
+
+    .video-placeholder i {
+        font-size: 64px;
+        margin-bottom: 15px;
+        opacity: 0.5;
+    }
+
+    .course-info {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .course-info h2 {
+        margin-bottom: 20px;
+        color: #333;
+        border-bottom: 2px solid #11998e;
+        padding-bottom: 10px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .info-item {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .info-item label {
+        color: #666;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .info-item .value {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .action-points {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .action-points h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .points-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .points-list li {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .points-list li i {
+        color: #11998e;
+        font-size: 20px;
+        margin-top: 2px;
+    }
+
+    .points-list li span {
+        color: #000;
+    }
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .action-buttons a {
+        flex: 1;
+        padding: 15px 30px;
+        text-align: center;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .btn-start-training {
+        background: #11998e;
+        color: white;
+    }
+
+    .btn-start-training:hover {
+        background: #0d7a71;
+    }
+
+    .btn-add-plan {
+        background: #f0f0f0;
+        color: #333;
+    }
+
+    .btn-add-plan:hover {
+        background: #e0e0e0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <a href="{{ url_for('course.course_list') }}" class="back-link">
+        <i class="fas fa-arrow-left"></i> 返回课程列表
+    </a>
+
+    <div class="course-header">
+        <h1>{{ course.course_name or course.course_action or '康复训练课程' }}</h1>
+        <p>{{ course.course_desc or course.course_intro or '专业的康复训练课程，帮助您科学有效地进行康复训练。' }}</p>
+    </div>
+
+    <!-- 演示视频 -->
+    <div class="video-section">
+        <div class="video-container">
+            {% if course.video_url %}
+            <video controls>
+                <source src="{{url_for('static', filename=course.video_url)}}" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+            {% else %}
+            <div class="video-placeholder">
+                <i class="fas fa-play-circle"></i>
+                <p>演示视频</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 课程描述 -->
+    <div class="course-info">
+        <h2><i class="fas fa-info-circle"></i> 课程描述</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>康复主题</label>
+                <div class="value">{{ course.theme_name or '康复训练' }}</div>
+            </div>
+            <div class="info-item">
+                <label>动作名称</label>
+                <div class="value">{{ course.course_action or course.course_name or '-' }}</div>
+            </div>
+            <div class="info-item">
+                <label>训练组数</label>
+                <div class="value">{{ course.group_count or 3 }} 组</div>
+            </div>
+            <div class="info-item">
+                <label>每组次数</label>
+                <div class="value">{{ course.rep_count or 10 }} 次</div>
+            </div>
+        </div>
+
+        <h3>训练计划</h3>
+        <p>{{ course.training_plan or '建议每周进行3-5次训练，每次训练时间控制在30-45分钟，训练后注意拉伸放松。' }}</p>
+    </div>
+
+    <!-- 动作要点 -->
+    <div class="action-points">
+        <h2><i class="fas fa-list-check"></i> 动作要点</h2>
+        <ul class="points-list">
+            {% if course_action_points %}
+                {% for point in course_action_points %}
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    <span>{{ point.action_points }}</span>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    <span>保持正确的姿势，注意动作的标准性</span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    <span>动作要缓慢、有控制，避免急促</span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    <span>注意呼吸配合，动作时不要憋气</span>
+                </li>
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    <span>如有不适，立即停止训练</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="action-buttons">
+        <a href="{{ url_for('course.start_training', course_id=course.course_id) }}" class="btn-start-training">
+            <i class="fas fa-play"></i> 开始训练
+        </a>
+        <form action="{{ url_for('course.add_to_plan', course_id=course.course_id) }}" method="POST" style="flex: 1;">
+            <button type="submit" class="btn-add-plan" style="width: 100%; padding: 15px 30px; border: none; cursor: pointer; border-radius: 10px;">
+                <i class="fas fa-calendar-plus"></i> 加入计划
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

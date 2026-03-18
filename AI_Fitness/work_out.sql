@@ -55,6 +55,7 @@ CREATE TABLE `user_date`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `batch_no` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '批次号',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '用户分数信息表' ROW_FORMAT = Dynamic;
 

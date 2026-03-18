@@ -260,7 +260,14 @@ class MYSQL:
     def join_field_value(self, data, glue=', '):
         sql = comma = ''
         for key in data.keys():
-            sql += "{}`{}` = %s".format(comma, key)
+            if '.' in key :
+                keyarr = key.split('.')
+                sql += "{}{}.`{}` = %s".format(comma, keyarr[0], keyarr[1])
+            elif '!=' in key:
+                keyarr = key.split(' ')
+                sql += "{}`{}` != %s".format(comma, keyarr[0])
+            else:
+                sql += "{}`{}` = %s".format(comma, key)
             comma = glue
         return sql
 

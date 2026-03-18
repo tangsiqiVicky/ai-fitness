@@ -1,0 +1,317 @@
+{% extends "main.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/fitness.css') }}">
+<style>
+    .training-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .training-header {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .training-header h1 {
+        margin: 0;
+    }
+
+    .close-btn {
+        background: rgba(255,255,255,0.2);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .close-btn:hover {
+        background: rgba(255,255,255,0.3);
+    }
+
+    .training-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+    }
+
+    @media (max-width: 992px) {
+        .training-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .video-section {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .video-wrapper {
+        background: #000;
+        height: 400px;
+        position: relative;
+    }
+
+    .video-wrapper video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .camera-feed {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 200px;
+        height: 150px;
+        background: #333;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 3px solid white;
+    }
+
+    .camera-feed video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .video-controls {
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .control-btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-stop {
+        background: #e74c3c;
+        color: white;
+    }
+
+    .btn-stop:hover {
+        background: #c0392b;
+    }
+
+    .btn-resume {
+        background: #27ae60;
+        color: white;
+    }
+
+    .btn-resume:hover {
+        background: #219a52;
+    }
+
+    .stats-panel {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .stats-panel h2 {
+        margin-bottom: 25px;
+        color: #333;
+        text-align: center;
+    }
+
+    .stat-item {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .stat-item label {
+        color: #666;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .stat-item .value {
+        font-size: 36px;
+        font-weight: bold;
+        color: #e74c3c;
+    }
+
+    .stat-item .unit {
+        font-size: 14px;
+        color: #999;
+    }
+
+    .stat-item.status .value {
+        font-size: 24px;
+    }
+
+    .stat-item.status .value.active {
+        color: #27ae60;
+    }
+
+    .stat-item.status .value.paused {
+        color: #f39c12;
+    }
+
+    .action-points-mini {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    .action-points-mini h3 {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .action-points-mini ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .action-points-mini li {
+        font-size: 13px;
+        padding: 8px 0;
+        color: #555;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .action-points-mini li i {
+        color: #27ae60;
+        margin-top: 2px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="training-container">
+    <div class="training-header">
+        <div>
+            <h1><i class="fas fa-heartbeat"></i> <span id="currentExercise">{{ course.course_action or '康复训练' }}</span></h1>
+            <p>姿态识别训练中</p>
+        </div>
+        <a href="{{ url_for('course.course_detail', course_id=course.course_id) }}" class="close-btn">
+            <i class="fas fa-times"></i> 关闭
+        </a>
+    </div>
+
+    <div class="training-content">
+    <input type="hidden" id="current-user-id" value="{{ session.get('user_id', '0') }}">
+    <input type="hidden" id="course_id" value="{{ course.course_id }}">
+        <!-- 视频区域 -->
+        <div class="video-section">
+            <div class="video-wrapper">
+                {% if course.video_url %}
+                <video id="demoVideo" loop muted>
+                    <source src="{{url_for('static', filename=course.video_url)}}" type="video/mp4">
+                </video>
+                {% else %}
+                <video id="demoVideo" loop muted poster="{{ url_for('static', filename='img/training-placeholder.jpg') }}">
+                    <source src="{{ url_for('static', filename='vedio/demo.mp4') }}" type="video/mp4">
+                </video>
+                {% endif %}
+
+                <!-- 摄像头画面 -->
+                <div class="camera-feed">
+                    <video id="cameraFeed" autoplay playsinline></video>
+                    <canvas id="pose-output-canvas"></canvas>
+                </div>
+            </div>
+
+            <div class="video-controls">
+                <button id="stopBtn" class="control-btn btn-stop">
+                    <i class="fas fa-pause"></i> 停止训练
+                </button>
+                <button id="resumeBtn" class="control-btn btn-resume" style="display: none;">
+                    <i class="fas fa-play"></i> 恢复训练
+                </button>
+            </div>
+        </div>
+
+        <!-- 统计面板 -->
+        <div class="stats-panel">
+            <h2><i class="fas fa-chart-bar"></i> 实时数据</h2>
+
+            <div class="stat-item status">
+                <label>当前状态</label>
+                <div class="value active" id="statusText">训练中</div>
+            </div>
+
+            <div class="stat-item" id="pose-timer">
+                <label>休息时间</label>
+                <div class="value" id="pose-timer-text">0</div>
+            </div>
+
+            <div class="stat-item">
+                <label>剩余组数</label>
+                <div class="value" id="remainingSets">{{ course.groups_count or 3 }}</div>
+                <div class="unit">组</div>
+            </div>
+
+            <div class="stat-item">
+                <label>剩余次数</label>
+                <div class="value" id="remainingReps">{{ course.actions_count or 10 }}</div>
+                <div class="unit">次</div>
+            </div>
+
+
+            <div class="stat-item">
+                <label>训练时长</label>
+                <div class="value" id="trainingTime">00:00</div>
+                <div class="unit">分:秒</div>
+            </div>
+
+            <div class="action-points-mini">
+                <h3>动作要点</h3>
+                <ul>
+                    {% if action_points %}
+                        {% for point in action_points[:4] %}
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>{{ point.action_points or point.content or point }}</span>
+                        </li>
+                        {% endfor %}
+                    {% else %}
+                        <li><i class="fas fa-check"></i> 保持正确姿势</li>
+                        <li><i class="fas fa-check"></i> 动作缓慢有控制</li>
+                        <li><i class="fas fa-check"></i> 注意呼吸配合</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加姿态识别所需的脚本 -->
+<script src="{{ url_for('static', filename='pose_fitness_js/camera_utils.js') }}" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='pose_fitness_js/control_utils.js') }}" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='pose_fitness_js/drawing_utils.js') }}" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='pose_fitness_js/pose.js') }}" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/posture_recognition.js')}}"></script>
+{% endblock %}

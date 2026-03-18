@@ -466,9 +466,12 @@
 #pose-timer {
     display: none;
 }
+#pose-timer-text {
+    font-weight: bold;
+}
 
 #pose-timer.active {
-    display: flex;
+    display: inherit;
 }
 
 .pose-controls {

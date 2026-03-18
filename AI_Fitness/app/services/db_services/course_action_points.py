@@ -13,15 +13,21 @@ from datetime import datetime
 from app.config import DB_CONFIG
 from app.utils.libmysql import MYSQL
 from app.utils.result_type import Response
+from app.services.db_services import DEMO_MODE
 
-conn = MYSQL(
-    dbhost=DB_CONFIG['host'],
-    dbuser=DB_CONFIG['user'],
-    dbpwd=DB_CONFIG['password'],
-    dbname=DB_CONFIG['database'],
-    dbport=DB_CONFIG['port'],
-    dbcharset='utf8'
-)
+if DEMO_MODE:
+    from app.services.mock_data import MOCK_COURSE_ACTION_POINTS
+else:
+    from app.config import DB_CONFIG
+    from app.utils.libmysql import MYSQL
+    conn = MYSQL(
+        dbhost=DB_CONFIG['host'],
+        dbuser=DB_CONFIG['user'],
+        dbpwd=DB_CONFIG['password'],
+        dbname=DB_CONFIG['database'],
+        dbport=DB_CONFIG['port'],
+        dbcharset='utf8'
+    )
 
 TABLE_NAME = "course_action_points"
 
@@ -52,3 +58,16 @@ def get_course_action_points_by_id(id: int):
      if not id:
          return Response.fail(code=500, msg="课程动作要点ID不能为空")
      return get_course_action_points({"id": id})
+
+def get_action_points_by_course_id(course_id: int):
+    """根据课程ID获取所有动作要点"""
+    if not course_id:
+        return Response.fail(code=500, msg="课程ID不能为空")
+
+    if DEMO_MODE:
+        if course_id in MOCK_COURSE_ACTION_POINTS:
+            points = MOCK_COURSE_ACTION_POINTS[course_id]
+            return Response.success(data=points)
+        return Response.fail(code=404, msg="查无此课程动作要点")
+    else:
+        return get_course_action_points({"course_id": course_id})

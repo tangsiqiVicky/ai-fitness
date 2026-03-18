@@ -1,0 +1,263 @@
+{% extends "main.html" %}
+
+{% block extra_css %}
+<style>    .detail-container {
+        padding: 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .back-link {
+        color: white;
+        text-decoration: none;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .nav-buttons a {
+        padding: 12px 25px;
+        background: white;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #667eea;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .nav-buttons a:hover, .nav-buttons a.active {
+        background: #667eea;
+        color: white;
+    }
+
+    .stats-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stats-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .stats-card h4 {
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .stats-card .value {
+        font-size: 28px;
+        font-weight: bold;
+        color: #667eea;
+    }
+
+    .history-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .history-section h2 {
+        margin-bottom: 25px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .date-group {
+        margin-bottom: 30px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .date-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .date-header i {
+        font-size: 20px;
+    }
+
+    .nutrition-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        padding: 20px;
+        background: #f8f9fa;
+    }
+
+    .nutrition-item {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 4px solid #667eea;
+    }
+
+    .nutrition-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .nutrition-item.protein {
+        border-left-color: #ff6b6b;
+    }
+
+    .nutrition-item.carbs {
+        border-left-color: #4ecdc4;
+    }
+
+    .nutrition-item.fat {
+        border-left-color: #ffe66d;
+    }
+
+    .nutrition-item.calories {
+        border-left-color: #95e1d3;
+    }
+
+    .nutrition-item .item-name {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+
+    .nutrition-item .item-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .nutrition-item.protein .item-value {
+        color: #ff6b6b;
+    }
+
+    .nutrition-item.carbs .item-value {
+        color: #4ecdc4;
+    }
+
+    .nutrition-item.fat .item-value {
+        color: #f9ca24;
+    }
+
+    .nutrition-item.calories .item-value {
+        color: #05c46b;
+    }
+
+    @media (max-width: 1024px) {
+        .nutrition-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .nutrition-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .nav-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="page-header">
+        <a href="{{ url_for('nutrition.user_nutrition') }}" class="back-link"><i class="fas fa-arrow-left"></i> 返回营养指导</a>
+        <h1><i class="fas fa-chart-line"></i> 详细营养数据</h1>
+        <p>查看您的每日营养摄入数据和趋势分析</p>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="{{ url_for('nutrition.user_nutrition') }}">营养指导总览</a>
+        <a href="{{ url_for('nutrition.nutrition_detail') }}" class="active">详细营养数据</a>
+        <a href="{{ url_for('nutrition.nutrition_suggestion') }}">每日营养建议</a>
+    </div>
+
+    <!-- 平均统计 -->
+    <div class="stats-summary">
+        <div class="stats-card">
+            <h4>平均蛋白质</h4>
+            <div class="value">{{ nutrition.protein }} g</div>
+        </div>
+        <div class="stats-card">
+            <h4>平均碳水化合物</h4>
+            <div class="value">{{ nutrition.carbs }} g</div>
+        </div>
+        <div class="stats-card">
+            <h4>平均脂肪</h4>
+            <div class="value">{{ nutrition.fat }} g</div>
+        </div>
+        <div class="stats-card">
+            <h4>平均热量</h4>
+            <div class="value">{{ nutrition.calories|int }} kcal</div>
+        </div>
+    </div>
+
+    <!-- 历史数据 -->
+    <div class="history-section">
+        <h2><i class="fas fa-history"></i> 历史数据详情</h2>
+        
+        {% for date_data in history %}
+        <div class="date-group">
+            <div class="date-header">
+                <i class="fas fa-calendar-day"></i>
+                {{ date_data.guidance.guidance_name }}——
+                {% if date_data.guidance.create_time %}
+                    {{ date_data.guidance.create_time.strftime('%Y-%m-%d') }}
+                {% else %}
+                    /
+                {% endif %}
+            </div>
+            <div class="nutrition-grid">
+
+                {% if date_data.nutrition_details %}
+                {% for nutrition in date_data.nutrition_details %}
+                <!-- 蛋白质 -->
+                <div class="nutrition-item protein">
+                    <div class="item-name"><i class="fas fa-drumstick-bite"></i> {{ nutrition.item_name }}</div>
+                    <div class="item-value">{{ nutrition.item_value }}</div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

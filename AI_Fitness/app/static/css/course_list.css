@@ -1,0 +1,331 @@
+/* ================================
+   康训课程页专属样式 - course_list.css
+   ================================ */
+
+.course-container {
+    padding: 20px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ================================
+   页面标题栏 - 标题和筛选合并为一排
+   ================================ */
+
+.page-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 30px 40px;
+    background: linear-gradient(135deg, rgba(26, 37, 53, 0.95) 0%, rgba(42, 82, 181, 0.1) 100%);
+    border-radius: 16px;
+    border: 1px solid #2A3A4F;
+}
+
+/* 左侧标题区域 */
+.page-header-left {
+    flex: 1;
+}
+
+.page-header-left h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #4A86E8 0%, #6B9FEF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-header-left h1 i {
+    -webkit-text-fill-color: #4A86E8;
+}
+
+.page-header-left p {
+    color: #B0C4DE;
+    margin: 0;
+    font-size: 15px;
+}
+
+/* 右侧筛选区域 */
+.page-header-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.filter-form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.filter-form select,
+.filter-form input {
+    padding: 10px 16px;
+    border: 1px solid #2A3A4F;
+    border-radius: 8px;
+    min-width: 180px;
+    background-color: #1A2535;
+    color: #ffffff;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.filter-form select:focus,
+.filter-form input:focus {
+    outline: none;
+    border-color: #4A86E8;
+    box-shadow: 0 0 0 2px rgba(74, 134, 232, 0.2);
+}
+
+.filter-form select option {
+    background-color: #1A2535;
+    color: #ffffff;
+}
+
+.filter-form input::placeholder {
+    color: #7A8FA8;
+}
+
+.filter-form button {
+    padding: 10px 28px;
+    background: linear-gradient(135deg, #4A86E8 0%, #2A52B5 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 100px;
+    height: 42px;
+}
+
+.filter-form button:hover {
+    background: linear-gradient(135deg, #2A52B5 0%, #1A3A8F 100%);
+    box-shadow: 0 4px 15px rgba(74, 134, 232, 0.4);
+    transform: translateY(-2px);
+}
+
+/* ================================
+   课程卡片网格 - 一排4个
+   ================================ */
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+/* ================================
+   课程卡片样式 - 标准化配置
+   【重要】此配置需与 shouye.css 中的课程卡片保持一致
+   ================================ */
+
+.course-card {
+    background: #1A2535;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 1px solid #2A3A4F;
+}
+
+.course-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    border-color: #4A86E8;
+}
+
+/* 课程图片区域 */
+.course-image {
+    height: 180px;
+    background: linear-gradient(135deg, #2A52B5 0%, #4A86E8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    position: relative;
+}
+
+.course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 课程内容区域 */
+.course-content {
+    padding: 20px;
+}
+
+.course-content h3 {
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.course-content p {
+    color: #B0C4DE;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* 课程元信息 */
+.course-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #7A8FA8;
+}
+
+.course-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.course-meta span i {
+    color: #4A86E8;
+}
+
+/* 课程操作按钮 */
+.course-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.course-actions a {
+    flex: 1;
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* 查看详情按钮 - 蓝色描边风格 */
+.btn-detail {
+    background: rgba(74, 134, 232, 0.1);
+    color: #4A86E8;
+    border: 1px solid rgba(74, 134, 232, 0.3);
+}
+
+.btn-detail:hover {
+    background: rgba(74, 134, 232, 0.2);
+    border-color: #4A86E8;
+}
+
+/* 开始训练按钮 - 深绿色渐变 */
+.btn-start {
+    background: linear-gradient(135deg, #2E8B57 0%, #236B43 100%);
+    color: white;
+}
+
+.btn-start:hover {
+    background: linear-gradient(135deg, #236B43 0%, #1A5233 100%);
+    box-shadow: 0 4px 15px rgba(46, 139, 87, 0.4);
+}
+
+/* ================================
+   空状态样式
+   ================================ */
+
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: #7A8FA8;
+}
+
+.empty-state i {
+    font-size: 64px;
+    color: #2A3A4F;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    color: #B0C4DE;
+    margin-bottom: 10px;
+}
+
+/* ================================
+   响应式设计
+   ================================ */
+
+@media (max-width: 1200px) {
+    .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .page-header-row {
+        flex-direction: column;
+        gap: 20px;
+        padding: 25px;
+    }
+
+    .page-header-left {
+        text-align: center;
+    }
+
+    .page-header-left h1 {
+        justify-content: center;
+    }
+
+    .page-header-right {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .filter-form {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .filter-form select,
+    .filter-form input {
+        min-width: 160px;
+    }
+
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .course-container {
+        padding: 15px;
+    }
+
+    .filter-form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .filter-form select,
+    .filter-form input,
+    .filter-form button {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+}
