@@ -766,6 +766,76 @@ def add_to_plan():
     except Exception as e:
         # 返回失败响应
         return jsonify({"success": False, "error": str(e)})
+from datetime import datetime, timedelta
+
+@app.route("/create-empty-plan", methods=["POST"])
+def create_empty_plan():
+    try:
+        data = request.get_json() 
+        # 1. 获取参数
+        title = data.get('title')
+        # 如果前端传了 startDate，就用前端的；没传就用今天
+        start_date_str = data.get('startDate') 
+        
+        user_id = session.get('user_id', '0')
+
+        # 2. 校验逻辑
+        if not title:
+            return jsonify({"success": False, "error": "请输入计划标题！！"})
+        
+        if user_id == '0':
+            return jsonify({"success": False, "error": "您还未登录，请登录后使用！！"})
+
+        # 3. 处理日期：计算具体日期
+        if start_date_str:
+            # 如果前端传了日期，尝试解析
+            try:
+                start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+            except:
+                start_date = datetime.today().date() # 解析失败用今天
+        else:
+            # 如果没传，直接用今天
+            start_date = datetime.today().date()
+
+        # 4. 构建主计划 (空计划，context 为空)
+        plan_parent = {
+            "user_id": user_id,
+            "plan": title,
+            "context": "", 
+            "is_deleted": 0
+        }
+        parent = user_plan.add_plan(plan_parent)
+        parent_id = parent.data['id']
+
+        # 5. 定义星期映射 (根据你的数据库字段决定是存中文还是英文)
+        # 这里假设你存的是中文 "周一", "周二"... 
+        weekdays = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+        
+        # 6. 生成7天的详细计划并插入
+        for i in range(7):
+            current_date = start_date + timedelta(days=i)
+            day_name = weekdays[current_date.weekday()] # 获取这一天是星期几
+
+            plan_detail = {
+                "parent_id": parent_id,
+                "user_id": user_id,
+                "plan_day": day_name,          # 存 "周一" 这种
+                "plan_time": current_date,     # 存具体日期 2026-03-18
+                "plan": "",                    # 空计划，标题为空
+                "context": "",                 # 空计划，内容为空
+                "is_deleted": 0
+            }
+            # 插入详情表
+            user_plan_detail.add_plan_detail(plan_detail)
+
+        return jsonify({
+            "success": True, 
+            "message": "默认日程创建成功",
+            "plan_id": parent_id
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})        
 @app.route("/add-to-plan-weekly", methods=["POST"])
 def add_to_plan_weekly():
     try:

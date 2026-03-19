@@ -107,7 +107,7 @@
                                     <span><i class="fas fa-redo"></i> 每组{% raw %}{{ course.actions_count }}{% endraw %}次</span>
                                 </div>
                                 <div class="course-buttons">
-                                    <a href="{{ url_for('course.course_list') }}" class="btn btn-sm">查看详情</a>
+                                    <a :href="'/course/detail/' + course.course_id" class="btn btn-sm">查看详情</a>
                                     <!--<a :href="'/fitness/'+ course.theme_code + '/man/' + course.code" class="btn btn-sm btn-green">开始训练</a>-->
                                     <a :href="'/course/start-training/' + course.course_id" class="btn btn-sm btn-green">开始训练</a>
                                 </div>

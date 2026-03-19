@@ -203,8 +203,14 @@
                 <div class="card">
                     <div class="plan-header">
                         <h3>当前训练计划</h3>
+                        <div>
                             <input type="hidden" id="activePlan" value="">
-                        <button id="change-plan-btn" class="btn btn-outline">更换计划</button>
+                            <button id="add_to_plan_button" class="btn btn-outline" title="将当前对话添加到我的计划">
+                                添加计划
+                            </button>
+                            <button id="change-plan-btn" class="btn btn-outline">更换计划</button>
+                        </div>
+                            
                     </div>
                     
                     <div class="current-plan">
@@ -443,6 +449,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='dropdown/dropdown.css') }}">>
 <!--<link rel="stylesheet" href="{{ url_for('static', filename='calendar/calendar.css') }}">>-->
 <script type="text/javascript" src="{{ url_for('static',filename='js/jquery/jquery-3.7.1.min.js')}}"></script>
+
 <script src="{{ url_for('static', filename='dialog/dialog.js') }}"></script>
 <script src="{{ url_for('static', filename='dialog_js/dialog.js') }}"></script>
 <script src="{{ url_for('static', filename='dropdown/dropdown.js') }}"></script>

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-   $("#addPlanModal").hide();
+  //  $("#addPlanModal").hide();
   // 获取用户ID
   const userid = $('#userid').val();
   const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -379,9 +379,9 @@ $(document).ready(function() {
     $('#input_text').val(promptText);
     autoResizeTextarea();
   });
-  $("#cancelAddPlan").click(function() {
-    $("#addPlanModal").hide();
-  });
+  // $("#cancelAddPlan").click(function() {
+  //   $("#addPlanModal").hide();
+  // });
   let lastAssistantMessage = null;
   // 添加到我的计划功能
   $('#add_to_plan_button').click(function() {

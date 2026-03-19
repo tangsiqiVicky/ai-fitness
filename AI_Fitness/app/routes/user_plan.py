@@ -14,7 +14,8 @@ from app.services.db_services import user_plan, user_plan_detail, plan_detail_co
 from functools import wraps
 
 # 创建蓝图
-user_plan_bp = Blueprint('user-plan', __name__, url_prefix='/user-plan')
+# user_plan_bp = Blueprint('user-plan', __name__, url_prefix='/user-plan')
+user_plan_bp = Blueprint('user-plan', __name__) 
 
 # 配置日志
 python_logging.basicConfig(
@@ -62,7 +63,7 @@ def plan_index():
 def get_user_plan_active():
     """获取当前激活的训练计划API"""
     try:
-        user_id = session.get('user_id')
+        user_id = session.get('user_id') 
         if not user_id:
             return jsonify({"success": False, 'error': "您还未登录，请登录后使用！"})
 

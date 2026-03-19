@@ -359,11 +359,97 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 $(document).ready(function() {
+    $("#add_to_plan_button").modalInput({
+      title: "请给计划起个名吧",
+      animation: "zoom", // fade / zoom / slide
+
+      fields: [
+        {
+          type: "text",
+          name: "title",
+          label: "计划名称",
+          placeholder: "请输入计划名称",
+          validate: v => v ? {valid:true} : {valid:false, msg:"计划名称不能为空"}
+        },
+        /*{
+          type: "textarea",
+          name: "desc",
+          label: "描述",
+          placeholder: "请输入描述内容",
+          default: "",
+          validate: v => ({valid:true})
+        },
+        {
+          type: "select",
+          name: "category",
+          label: "类别",
+          default: "sport",
+          options: [
+            {value:"sport", label:"运动"},
+            {value:"diet",  label:"饮食"},
+            {value:"rest",  label:"休息"}
+          ]
+        },
+        {
+          type: "radio",
+          name: "level",
+          label: "强度等级",
+          default: "middle",
+          options: [
+            {value:"low", label:"低"},
+            {value:"middle", label:"中"},
+            {value:"high", label:"高"},
+          ]
+        }*/
+      ],
+
+      onConfirm: function(values){
+//        alert("提交的数据：" + JSON.stringify(values, null, 2));
+        // submitPlan(values.title);
+        console.log(values);
+        $.ajax({
+          url: "/create-empty-plan",
+          type: "post",
+          contentType: "application/json",
+          dataType: 'json',
+          data: JSON.stringify({
+            title: values.title,
+          })
+        }).done(function(response) {
+          
+          if(response.success){
+              alert(response.message);
+
+             $.ajax({
+                url: "/change-user-plan",
+                type: "post",
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify({
+                  origin_id: $('#activePlan').val(),
+                  new_id: response.plan_id,
+                })
+              }).done(function(response) {
+                renderPlan(response)
+              }).fail(function(error) {
+                console.error("Error sending message:", error);
+                alert("抱歉，发生了错误，请稍后再试。");
+                $('#loading').hide();
+              });
+            }
+        }).fail(function(error) {
+          console.error("Error sending message:", error);
+          alert("抱歉，发生了错误，请稍后再试。");
+          $('#loading').hide();
+        });
+        
+      }
+    });
     const plans = []
     const userid = $('#userid').val();
     $('#nav_training-plan').click(function(){
         $.ajax({
-          url: "/user-plan/get-user-plan-active",
+          url: "/get-user-plan-active",
           type: "get",
 //          contentType: "application/x-www-form-urlencoded",
           data: 'userId=' + userid
